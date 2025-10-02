@@ -2,6 +2,7 @@
 
 import * as Slider from '@radix-ui/react-slider'
 import { Volume2, VolumeX } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface VolumeControlProps {
   value: number // 0-100
@@ -9,6 +10,8 @@ interface VolumeControlProps {
 }
 
 export function VolumeControl({ value, onChange }: VolumeControlProps) {
+  const t = useTranslations('Settings')
+
   const handleValueChange = (values: number[]) => {
     onChange(values[0])
   }
@@ -17,7 +20,7 @@ export function VolumeControl({ value, onChange }: VolumeControlProps) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-text-primary">
-          Volume
+          {t('volume')}
         </label>
         <span className="text-sm font-semibold text-text-secondary">
           {value}%
@@ -39,7 +42,7 @@ export function VolumeControl({ value, onChange }: VolumeControlProps) {
           onValueChange={handleValueChange}
           max={100}
           step={1}
-          aria-label="Volume"
+          aria-label={t('volume')}
         >
           <Slider.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-bg-secondary">
             <Slider.Range className="absolute h-full bg-primary-green" />

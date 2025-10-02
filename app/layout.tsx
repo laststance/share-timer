@@ -1,21 +1,8 @@
-import type { Metadata } from 'next'
-import './globals.css'
-
-export const metadata: Metadata = {
-  title: 'Share Timer',
-  description: 'Simple, relaxing timer application with web push notifications',
-}
-
+// Since we have a `[locale]` segment, a minimal root layout is required
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className="bg-bg-primary text-text-primary antialiased">
-        {children}
-      </body>
-    </html>
-  )
+  return children
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface TimeInputProps {
   onTimeChange: (minutes: number, seconds: number) => void
@@ -15,6 +16,7 @@ export function TimeInput({
   initialMinutes = 5,
   initialSeconds = 0,
 }: TimeInputProps) {
+  const t = useTranslations('Timer')
   const [minutes, setMinutes] = useState(initialMinutes)
   const [seconds, setSeconds] = useState(initialSeconds)
 
@@ -40,7 +42,7 @@ export function TimeInput({
           htmlFor="minutes"
           className="text-sm font-medium text-text-secondary"
         >
-          Minutes
+          {t('minutes')}
         </label>
         <input
           id="minutes"
@@ -63,7 +65,7 @@ export function TimeInput({
           htmlFor="seconds"
           className="text-sm font-medium text-text-secondary"
         >
-          Seconds
+          {t('seconds')}
         </label>
         <input
           id="seconds"

@@ -1,0 +1,35 @@
+{
+  "App": {
+    "title": "Share Timer",
+    "description": "Simple, relaxing timer for your daily tasks"
+  },
+  "Timer": {
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  },
+  "Settings": {
+    "title": "Settings",
+    "close": "Close",
+    "done": "Done",
+    "openSettings": "Open settings",
+    "sound": "Sound",
+    "volume": "Volume",
+    "selectSound": "Select sound",
+    "previewSound": "Preview {sound}"
+  },
+  "SoundPresets": {
+    "gentle-bell": "Gentle Bell",
+    "chime": "Chime",
+    "soft-alarm": "Soft Alarm",
+    "digital-beep": "Digital Beep",
+    "none": "None"
+  },
+  "Language": {
+    "label": "Language",
+    "en": "English",
+    "ja": "日本語"
+  }
+}

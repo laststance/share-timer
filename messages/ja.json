@@ -1,0 +1,35 @@
+{
+  "App": {
+    "title": "シェアタイマー",
+    "description": "シンプルでリラックスできる日常タスク用タイマー"
+  },
+  "Timer": {
+    "start": "開始",
+    "pause": "一時停止",
+    "reset": "リセット",
+    "minutes": "分",
+    "seconds": "秒"
+  },
+  "Settings": {
+    "title": "設定",
+    "close": "閉じる",
+    "done": "完了",
+    "openSettings": "設定を開く",
+    "sound": "サウンド",
+    "volume": "音量",
+    "selectSound": "サウンドを選択",
+    "previewSound": "{sound}をプレビュー"
+  },
+  "SoundPresets": {
+    "gentle-bell": "やさしいベル",
+    "chime": "チャイム",
+    "soft-alarm": "ソフトアラーム",
+    "digital-beep": "デジタルビープ",
+    "none": "なし"
+  },
+  "Language": {
+    "label": "言語",
+    "en": "English",
+    "ja": "日本語"
+  }
+}

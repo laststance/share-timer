@@ -2,6 +2,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
 import { SoundSelector } from './SoundSelector'
 import { VolumeControl } from './VolumeControl'
@@ -12,6 +13,7 @@ interface SettingsPanelProps {
 }
 
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
+  const t = useTranslations('Settings')
   const { soundPreset, volume, setSoundPreset, setVolume } = useSettingsStore()
 
   return (
@@ -22,12 +24,12 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
             <Dialog.Title className="text-2xl font-bold text-text-primary">
-              Settings
+              {t('title')}
             </Dialog.Title>
             <Dialog.Close asChild>
               <button
                 className="rounded-full p-1 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-green"
-                aria-label="Close"
+                aria-label={t('close')}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -44,7 +46,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           <div className="mt-6 flex justify-end">
             <Dialog.Close asChild>
               <button className="rounded-lg bg-primary-green px-6 py-2 font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2">
-                Done
+                {t('done')}
               </button>
             </Dialog.Close>
           </div>
