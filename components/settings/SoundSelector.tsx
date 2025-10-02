@@ -73,7 +73,7 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                         e.stopPropagation()
                         handlePreview(preset)
                       }}
-                      className="ml-2 rounded p-1 hover:bg-bg-secondary"
+                      className="ml-2 rounded p-2 hover:bg-bg-secondary"
                       aria-label={t('previewSound', { sound: tPresets(preset) })}
                     >
                       <Play className="h-3 w-3" />

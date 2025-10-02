@@ -82,7 +82,7 @@ export default function Home() {
           {/* Settings Button - Right Side */}
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="absolute right-0 top-0 rounded-full p-2 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-green"
+            className="absolute right-0 top-0 rounded-full p-3 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-green"
             aria-label={t('description')}
           >
             <Settings className="h-6 w-6" />

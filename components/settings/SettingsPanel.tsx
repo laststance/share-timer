@@ -29,7 +29,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             </Dialog.Title>
             <Dialog.Close asChild>
               <button
-                className="rounded-full p-1 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-green"
+                className="rounded-full p-3 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-green"
                 aria-label={t('close')}
               >
                 <X className="h-5 w-5" />
@@ -47,7 +47,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           {/* Footer */}
           <div className="mt-6 flex justify-end">
             <Dialog.Close asChild>
-              <button className="rounded-lg bg-primary-green px-6 py-2 font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2">
+              <button className="rounded-lg bg-primary-green px-6 py-3 font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2">
                 {t('done')}
               </button>
             </Dialog.Close>

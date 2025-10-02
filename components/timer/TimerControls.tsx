@@ -29,7 +29,7 @@ export function TimerControls({
           onClick={onStart}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 rounded-full bg-primary-green px-8 py-4 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2"
+          className="flex items-center gap-2 rounded-full bg-primary-green px-8 py-5 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2"
         >
           <Play className="h-5 w-5" fill="currentColor" />
           {t('start')}
@@ -39,7 +39,7 @@ export function TimerControls({
           onClick={onPause}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 rounded-full bg-accent-amber px-8 py-4 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-accent-amber focus:ring-offset-2"
+          className="flex items-center gap-2 rounded-full bg-accent-amber px-8 py-5 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-accent-amber focus:ring-offset-2"
         >
           <Pause className="h-5 w-5" fill="currentColor" />
           {t('pause')}
@@ -51,7 +51,7 @@ export function TimerControls({
         onClick={onReset}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 rounded-full bg-text-secondary px-6 py-4 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-text-secondary focus:ring-offset-2"
+        className="flex items-center gap-2 rounded-full bg-gray-500 px-6 py-5 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
       >
         <RotateCcw className="h-5 w-5" />
         {t('reset')}

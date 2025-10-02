@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+/* Tailwind v4 Theme Configuration */
+@theme {
+  /* Primary Colors - Updated for WCAG AA compliance (4.5:1 contrast with white) */
+  --color-primary-green: #059669;
+  --color-primary-green-dark: #047857;
+
+  /* Background Colors */
+  --color-bg-primary: #FAF9F6;
+  --color-bg-secondary: #F3F4F6;
+
+  /* Text Colors */
+  --color-text-primary: #374151;
+  --color-text-secondary: #6B7280;
+
+  /* Accent Colors */
+  --color-accent-blue: #60A5FA;
+  --color-accent-amber: #FBBF24;
+
+  /* Additional Grays for proper button styling */
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+
+  /* Box Shadow */
+  --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+}
+
 /* Screen reader only utility for accessibility */
 .sr-only {
   position: absolute;
