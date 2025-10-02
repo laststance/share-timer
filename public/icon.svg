@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#F9FAFB"/>
+
+  <!-- Timer Circle Background -->
+  <circle cx="256" cy="256" r="140" fill="#E5E7EB"/>
+
+  <!-- Timer Progress Arc (75% example) -->
+  <circle
+    cx="256"
+    cy="256"
+    r="140"
+    fill="none"
+    stroke="#10B981"
+    stroke-width="28"
+    stroke-linecap="round"
+    stroke-dasharray="879.65 879.65"
+    stroke-dashoffset="219.91"
+    transform="rotate(-90 256 256)"
+  />
+
+  <!-- Center Circle -->
+  <circle cx="256" cy="256" r="100" fill="#FFFFFF"/>
+
+  <!-- Clock Hand (pointing to 12) -->
+  <rect x="250" y="156" width="12" height="80" rx="6" fill="#1F2937"/>
+
+  <!-- Center Dot -->
+  <circle cx="256" cy="256" r="16" fill="#10B981"/>
+</svg>

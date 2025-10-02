@@ -8,7 +8,13 @@
     "pause": "一時停止",
     "reset": "リセット",
     "minutes": "分",
-    "seconds": "秒"
+    "seconds": "秒",
+    "timeRemaining": "残り時間",
+    "progress": "進捗",
+    "timerComplete": "タイマー完了",
+    "timerPaused": "タイマー一時停止中",
+    "timerRunning": "タイマー実行中",
+    "timerIdle": "タイマー待機中"
   },
   "Settings": {
     "title": "設定",

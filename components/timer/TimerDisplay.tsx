@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 interface TimerDisplayProps {
   timeRemaining: number // seconds
@@ -15,10 +16,20 @@ export function TimerDisplay({
   isPaused,
   initialTime,
 }: TimerDisplayProps) {
+  const t = useTranslations('Timer')
+
   // Format time as MM:SS
   const minutes = Math.floor(timeRemaining / 60)
   const seconds = timeRemaining % 60
   const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+
+  // Status for screen readers
+  const getTimerStatus = () => {
+    if (timeRemaining === 0) return t('timerComplete')
+    if (isPaused) return t('timerPaused')
+    if (isRunning) return t('timerRunning')
+    return t('timerIdle')
+  }
 
   // Calculate progress percentage
   const progress = initialTime > 0 ? (timeRemaining / initialTime) * 100 : 0
@@ -44,6 +55,10 @@ export function TimerDisplay({
     <div className="flex items-center justify-center">
       <motion.div
         className="relative"
+        role="timer"
+        aria-label={`${t('timeRemaining')}: ${formattedTime}`}
+        aria-live="polite"
+        aria-atomic="true"
         animate={isRunning ? { scale: [1, 1.02, 1] } : { scale: 1 }}
         transition={{
           duration: 1,
@@ -52,7 +67,14 @@ export function TimerDisplay({
         }}
       >
         {/* SVG Circular Progress */}
-        <svg width={size} height={size} className="transform -rotate-90">
+        <svg
+          width={size}
+          height={size}
+          className="transform -rotate-90"
+          aria-hidden="true"
+          role="img"
+          aria-label={`${t('progress')}: ${Math.round(progress)}%`}
+        >
           {/* Background circle */}
           <circle
             cx={size / 2}
@@ -76,6 +98,10 @@ export function TimerDisplay({
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
+            role="progressbar"
+            aria-valuenow={Math.round(progress)}
+            aria-valuemin={0}
+            aria-valuemax={100}
           />
         </svg>
 
@@ -85,15 +111,16 @@ export function TimerDisplay({
             className="font-mono text-6xl font-bold"
             style={{ color }}
             animate={
-              timeRemaining === 0
-                ? { scale: [1, 1.1, 1] }
-                : { scale: 1 }
+              timeRemaining === 0 ? { scale: [1, 1.1, 1] } : { scale: 1 }
             }
             transition={{ duration: 0.3 }}
           >
             {formattedTime}
           </motion.span>
         </div>
+
+        {/* Screen reader only status */}
+        <span className="sr-only">{getTimerStatus()}</span>
       </motion.div>
     </div>
   )

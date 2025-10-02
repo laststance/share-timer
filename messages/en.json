@@ -8,7 +8,13 @@
     "pause": "Pause",
     "reset": "Reset",
     "minutes": "Minutes",
-    "seconds": "Seconds"
+    "seconds": "Seconds",
+    "timeRemaining": "Time remaining",
+    "progress": "Progress",
+    "timerComplete": "Timer complete",
+    "timerPaused": "Timer paused",
+    "timerRunning": "Timer running",
+    "timerIdle": "Timer idle"
   },
   "Settings": {
     "title": "Settings",

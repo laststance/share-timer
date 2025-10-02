@@ -6,9 +6,12 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'ShareTimer',
     description: 'Simple, relaxing timer application with web push notifications',
     start_url: '/',
+    scope: '/',
     display: 'standalone',
+    orientation: 'portrait',
     background_color: '#F9FAFB',
     theme_color: '#10B981',
+    categories: ['productivity', 'utilities', 'lifestyle'],
     icons: [
       {
         src: '/icon-192x192.png',
@@ -23,10 +26,16 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: 'any',
       },
       {
-        src: '/icon-192x192.png',
+        src: '/icon-192x192-maskable.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'maskable',
+      },
+      {
+        src: '/badge.png',
+        sizes: '96x96',
+        type: 'image/png',
+        purpose: 'monochrome',
       },
     ],
   }

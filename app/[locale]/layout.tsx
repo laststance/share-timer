@@ -9,6 +9,25 @@ import '../globals.css'
 export const metadata: Metadata = {
   title: 'Share Timer',
   description: 'Simple, relaxing timer application with web push notifications',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'ShareTimer',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#10B981',
 }
 
 export function generateStaticParams() {
