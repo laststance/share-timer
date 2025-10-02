@@ -83,6 +83,8 @@ pnpm start
 ```
 
 ### Implemented Features
+
+**Phase 1: Core Timer**
 - ✅ Next.js 15 + React 19 + TypeScript
 - ✅ Zustand state management with localStorage
 - ✅ Circular timer display with green theme
@@ -91,7 +93,15 @@ pnpm start
 - ✅ Tailwind CSS 4.x design system
 - ✅ Smooth animations with Framer Motion
 
-**See [IMPLEMENTATION_PHASE1.md](./IMPLEMENTATION_PHASE1.md) for detailed technical summary**
+**Phase 2: Settings & Audio**
+- ✅ Audio playback system (AudioManager)
+- ✅ Sound preset selection (5 options)
+- ✅ Volume control with Radix UI Slider
+- ✅ Settings panel with Radix UI Dialog
+- ✅ Sound preview functionality
+- ✅ Settings persistence (localStorage)
+
+**See [IMPLEMENTATION_PHASE1.md](./IMPLEMENTATION_PHASE1.md) and [IMPLEMENTATION_PHASE2.md](./IMPLEMENTATION_PHASE2.md) for detailed technical summaries**
 
 ---
 
@@ -99,8 +109,8 @@ pnpm start
 
 ### Implementation Progress
 1. **✅ フェーズ1**: 基本タイマー機能 (COMPLETE)
-2. **⏳ フェーズ2**: 設定とオーディオ (Next)
-3. **⏳ フェーズ3**: 国際化セットアップ (next-intl)
+2. **✅ フェーズ2**: 設定とオーディオ (COMPLETE)
+3. **⏳ フェーズ3**: 国際化セットアップ (Next)
 4. **⏳ フェーズ4**: Web Push通知
 5. **⏳ フェーズ5**: PWA設定
 6. **⏳ フェーズ6**: テストとローンチ
