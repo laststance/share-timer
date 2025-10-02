@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
 import { SoundSelector } from './SoundSelector'
 import { VolumeControl } from './VolumeControl'
+import { NotificationToggle } from './NotificationToggle'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -40,6 +41,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           <div className="space-y-6">
             <SoundSelector value={soundPreset} onChange={setSoundPreset} />
             <VolumeControl value={volume} onChange={setVolume} />
+            <NotificationToggle />
           </div>
 
           {/* Footer */}

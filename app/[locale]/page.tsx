@@ -5,15 +5,19 @@ import { Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useTimerStore } from '@/lib/stores/timerStore'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
+import { useNotificationStore } from '@/lib/stores/notificationStore'
 import { audioManager } from '@/lib/audio/audioManager'
+import { showNotification } from '@/lib/notifications/notificationManager'
 import { TimerDisplay } from '@/components/timer/TimerDisplay'
 import { TimerControls } from '@/components/timer/TimerControls'
 import { TimeInput } from '@/components/timer/TimeInput'
 import { SettingsPanel } from '@/components/settings/SettingsPanel'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { NotificationTest } from '@/components/notifications/NotificationTest'
 
 export default function Home() {
   const t = useTranslations('App')
+  const tNotifications = useTranslations('Notifications')
   const {
     timeRemaining,
     initialTime,
@@ -27,6 +31,7 @@ export default function Home() {
   } = useTimerStore()
 
   const { soundPreset, volume } = useSettingsStore()
+  const { enabled: notificationsEnabled, permission } = useNotificationStore()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const previousTimeRef = useRef(timeRemaining)
 
@@ -41,14 +46,25 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [isRunning, tick])
 
-  // Play sound when timer completes
+  // Play sound and show notification when timer completes
   useEffect(() => {
     // Detect when timer just hit 0
     if (previousTimeRef.current > 0 && timeRemaining === 0) {
+      // Play sound
       audioManager.play(soundPreset, volume)
+
+      // Show notification if enabled and permission granted
+      if (notificationsEnabled && permission === 'granted') {
+        showNotification({
+          title: tNotifications('timerCompleteTitle'),
+          body: tNotifications('timerCompleteBody'),
+        }).catch((error) => {
+          console.error('[Timer] Failed to show notification:', error)
+        })
+      }
     }
     previousTimeRef.current = timeRemaining
-  }, [timeRemaining, soundPreset, volume])
+  }, [timeRemaining, soundPreset, volume, notificationsEnabled, permission, tNotifications])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12 p-8">
@@ -97,6 +113,11 @@ export default function Home() {
           initialMinutes={Math.floor(initialTime / 60)}
           initialSeconds={initialTime % 60}
         />
+
+        {/* Notification Test - Development/Testing UI */}
+        <div className="mt-8 border-t border-bg-secondary pt-8">
+          <NotificationTest />
+        </div>
       </div>
 
       {/* Settings Panel */}

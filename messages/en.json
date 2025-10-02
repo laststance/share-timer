@@ -31,5 +31,28 @@
     "label": "Language",
     "en": "English",
     "ja": "日本語"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "enabled": "Enable notifications",
+    "disabled": "Disable notifications",
+    "permissionGranted": "Notifications enabled",
+    "permissionGrantedDescription": "You will receive notifications when the timer completes",
+    "permissionDenied": "Notifications blocked",
+    "permissionDeniedDescription": "Please enable notifications in your browser settings",
+    "permissionDefault": "Notifications not enabled",
+    "permissionDefaultDescription": "Grant permission to receive notifications",
+    "requestPermission": "Enable notifications",
+    "requesting": "Requesting...",
+    "testNotification": "Test notification",
+    "testNotificationDescription": "Send a test notification to verify it's working",
+    "sendTest": "Send test",
+    "sending": "Sending...",
+    "testTitle": "Share Timer - Test",
+    "testBody": "Notifications are working correctly!",
+    "timerCompleteTitle": "Timer Complete!",
+    "timerCompleteBody": "Your timer has finished",
+    "notSupported": "Notifications not supported",
+    "notSupportedDescription": "Your browser doesn't support notifications"
   }
 }

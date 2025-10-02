@@ -31,5 +31,28 @@
     "label": "言語",
     "en": "English",
     "ja": "日本語"
+  },
+  "Notifications": {
+    "title": "通知",
+    "enabled": "通知を有効にする",
+    "disabled": "通知を無効にする",
+    "permissionGranted": "通知が有効",
+    "permissionGrantedDescription": "タイマー完了時に通知を受け取ります",
+    "permissionDenied": "通知がブロックされています",
+    "permissionDeniedDescription": "ブラウザの設定で通知を有効にしてください",
+    "permissionDefault": "通知が未設定",
+    "permissionDefaultDescription": "通知を受け取るには許可が必要です",
+    "requestPermission": "通知を有効にする",
+    "requesting": "リクエスト中...",
+    "testNotification": "テスト通知",
+    "testNotificationDescription": "テスト通知を送信して動作を確認",
+    "sendTest": "テスト送信",
+    "sending": "送信中...",
+    "testTitle": "シェアタイマー - テスト",
+    "testBody": "通知は正常に動作しています！",
+    "timerCompleteTitle": "タイマー完了！",
+    "timerCompleteBody": "タイマーが終了しました",
+    "notSupported": "通知がサポートされていません",
+    "notSupportedDescription": "お使いのブラウザは通知をサポートしていません"
   }
 }
