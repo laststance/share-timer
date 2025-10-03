@@ -25,7 +25,14 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
   const tPresets = useTranslations('SoundPresets')
   const volume = useSettingsStore((state) => state.volume)
 
-  const handlePreview = (preset: SoundPreset) => {
+  /**
+   * Handles the preview button click to play the selected sound
+   * @param e - Mouse event to prevent default select behavior
+   * @param preset - The sound preset to preview
+   */
+  const handlePreview = (e: React.MouseEvent, preset: SoundPreset) => {
+    e.preventDefault()
+    e.stopPropagation()
     audioManager.play(preset, volume)
   }
 
@@ -56,30 +63,31 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
           >
             <Select.Viewport className="p-1">
               {SOUND_OPTIONS.map((preset) => (
-                <Select.Item
+                <div
                   key={preset}
-                  value={preset}
-                  className="relative flex cursor-pointer items-center justify-between rounded-md px-8 py-2 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
+                  className="relative flex items-center justify-between rounded-md px-2 py-2"
                 >
-                  <Select.ItemText>{tPresets(preset)}</Select.ItemText>
-                  <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
-                    <Check className="h-4 w-4" />
-                  </Select.ItemIndicator>
+                  <Select.Item
+                    value={preset}
+                    className="flex-1 cursor-pointer rounded-md px-6 py-1 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
+                  >
+                    <Select.ItemText>{tPresets(preset)}</Select.ItemText>
+                    <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
+                      <Check className="h-4 w-4" />
+                    </Select.ItemIndicator>
+                  </Select.Item>
 
                   {preset !== 'none' && (
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handlePreview(preset)
-                      }}
-                      className="ml-2 rounded p-2 hover:bg-bg-secondary"
+                      onPointerDown={(e) => handlePreview(e, preset)}
+                      className="ml-2 rounded p-2 text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
                       aria-label={t('previewSound', { sound: tPresets(preset) })}
                     >
-                      <Play className="h-3 w-3" />
+                      <Play className="h-3 w-3 fill-current" />
                     </button>
                   )}
-                </Select.Item>
+                </div>
               ))}
             </Select.Viewport>
           </Select.Content>
