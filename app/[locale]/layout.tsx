@@ -7,19 +7,56 @@ import { ServiceWorkerRegistration } from '@/components/notifications/ServiceWor
 import '../globals.css'
 
 export const metadata: Metadata = {
-  title: 'Share Timer',
-  description: 'Simple, relaxing timer application with web push notifications',
+  title: {
+    default: 'Share Timer',
+    template: '%s | Share Timer',
+  },
+  description: 'Simple, relaxing timer application with web push notifications. Perfect for productivity and focus sessions.',
+  keywords: ['timer', 'productivity', 'focus', 'pomodoro', 'time management', 'web app'],
+  authors: [{ name: 'Share Timer Team' }],
+  creator: 'Share Timer',
+  publisher: 'Share Timer',
+  formatDetection: {
+    telephone: false,
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'ShareTimer',
+    startupImage: [
+      {
+        url: '/apple-touch-icon.png',
+        media: '(orientation: portrait)',
+      },
+    ],
   },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/icon-maskable.svg',
+        color: '#10B981',
+      },
+    ],
+  },
+  manifest: '/api/manifest',
+  other: {
+    'msapplication-TileColor': '#10B981',
+    'msapplication-TileImage': '/icon-192x192.png',
+    'msapplication-config': '/browserconfig.xml',
+    'theme-color': '#10B981',
+    'color-scheme': 'light',
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'apple-mobile-web-app-title': 'ShareTimer',
   },
 }
 

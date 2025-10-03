@@ -80,14 +80,18 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
 }
 
 /**
- * Show a notification via the Service Worker
+ * Show a notification via the Service Worker with enhanced error handling
  */
 export async function showNotification(
-  options: NotificationOptions
+  options: NotificationOptions,
+  retryCount: number = 0
 ): Promise<boolean> {
+  const maxRetries = 3
+  const retryDelay = 1000 // 1 second
+
   // Check support
   if (!isNotificationSupported()) {
-    console.warn('[Notifications] Not supported')
+    console.warn('[Notifications] Not supported in this browser')
     return false
   }
 
@@ -104,25 +108,84 @@ export async function showNotification(
 
     // Send message to Service Worker to show notification
     if (registration.active) {
-      registration.active.postMessage({
-        type: 'SHOW_NOTIFICATION',
-        title: options.title,
-        body: options.body,
-        icon: options.icon || '/icon-192x192.png',
-        badge: options.badge || '/badge.png',
-        tag: options.tag || 'share-timer-notification',
-        url: options.url || window.location.href,
+      // Create a promise to wait for the notification to be shown
+      const notificationPromise = new Promise<boolean>((resolve) => {
+        const messageChannel = new MessageChannel()
+
+        messageChannel.port1.onmessage = (event) => {
+          if (event.data.success) {
+            console.log('[Notifications] Notification shown successfully')
+            resolve(true)
+          } else {
+            console.error('[Notifications] Failed to show notification:', event.data.error)
+            resolve(false)
+          }
+        }
+
+        registration.active!.postMessage({
+          type: 'SHOW_NOTIFICATION',
+          title: options.title,
+          body: options.body,
+          icon: options.icon || '/icon-192x192.png',
+          badge: options.badge || '/badge.png',
+          tag: options.tag || 'share-timer-notification',
+          url: options.url || window.location.href,
+        }, [messageChannel.port2])
       })
 
-      console.log('[Notifications] Notification sent to Service Worker')
-      return true
+      return await notificationPromise
     }
 
     console.warn('[Notifications] No active Service Worker')
     return false
   } catch (error) {
     console.error('[Notifications] Failed to show notification:', error)
+
+    // Retry logic for transient failures
+    if (retryCount < maxRetries) {
+      console.log(`[Notifications] Retrying notification (${retryCount + 1}/${maxRetries})...`)
+      await new Promise(resolve => setTimeout(resolve, retryDelay))
+      return showNotification(options, retryCount + 1)
+    }
+
     return false
+  }
+}
+
+/**
+ * Enhanced notification permission request with user-friendly messaging
+ */
+export async function requestNotificationPermissionWithGuidance(): Promise<NotificationPermission> {
+  if (!isNotificationSupported()) {
+    console.warn('[Notifications] Not supported in this browser')
+    return 'denied'
+  }
+
+  const currentPermission = getNotificationPermission()
+
+  // If already granted or denied, return current status
+  if (currentPermission !== 'default') {
+    return currentPermission
+  }
+
+  try {
+    // Show user-friendly guidance before requesting permission
+    console.log('[Notifications] Requesting notification permission...')
+
+    const permission = await Notification.requestPermission()
+
+    if (permission === 'granted') {
+      console.log('[Notifications] Permission granted')
+    } else if (permission === 'denied') {
+      console.warn('[Notifications] Permission denied by user')
+    } else {
+      console.log('[Notifications] Permission dismissed by user')
+    }
+
+    return permission as NotificationPermission
+  } catch (error) {
+    console.error('[Notifications] Permission request failed:', error)
+    return 'denied'
   }
 }
 
