@@ -75,7 +75,7 @@ pnpm install
 
 # 開発サーバー起動 / Start development server
 pnpm dev
-# Open http://localhost:3000
+# Open http://localhost:3009
 
 # プロダクションビルド / Production build
 pnpm build
