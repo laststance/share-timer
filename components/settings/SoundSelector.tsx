@@ -1,5 +1,6 @@
 'use client'
 
+import * as React from 'react'
 import * as Select from '@radix-ui/react-select'
 import { Check, ChevronDown, Play } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -25,6 +26,10 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
   const tPresets = useTranslations('SoundPresets')
   const volume = useSettingsStore((state) => state.volume)
 
+  // Track preview playback state
+  const [previewingSound, setPreviewingSound] = React.useState<SoundPreset | null>(null)
+  const [previewProgress, setPreviewProgress] = React.useState(0)
+
   /**
    * Handles the preview button click to play the selected sound
    * @param e - Mouse event to prevent default select behavior
@@ -33,8 +38,29 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
   const handlePreview = (e: React.MouseEvent, preset: SoundPreset) => {
     e.preventDefault()
     e.stopPropagation()
-    audioManager.play(preset, volume)
+
+    setPreviewingSound(preset)
+    setPreviewProgress(0)
+
+    audioManager.play(preset, volume, (progress) => {
+      setPreviewProgress(progress)
+
+      // Reset state when playback completes
+      if (progress >= 100) {
+        setTimeout(() => {
+          setPreviewingSound(null)
+          setPreviewProgress(0)
+        }, 100)
+      }
+    })
   }
+
+  // Cleanup on unmount
+  React.useEffect(() => {
+    return () => {
+      audioManager.stop()
+    }
+  }, [])
 
   const currentLabel = tPresets(value)
 
@@ -65,27 +91,46 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
               {SOUND_OPTIONS.map((preset) => (
                 <div
                   key={preset}
-                  className="relative flex items-center justify-between rounded-md px-2 py-2"
+                  className="relative flex flex-col"
                 >
-                  <Select.Item
-                    value={preset}
-                    className="flex-1 cursor-pointer rounded-md px-6 py-1 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
-                  >
-                    <Select.ItemText>{tPresets(preset)}</Select.ItemText>
-                    <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
-                      <Check className="h-4 w-4" />
-                    </Select.ItemIndicator>
-                  </Select.Item>
-
-                  {preset !== 'none' && (
-                    <button
-                      type="button"
-                      onPointerDown={(e) => handlePreview(e, preset)}
-                      className="ml-2 rounded p-2 text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
-                      aria-label={t('previewSound', { sound: tPresets(preset) })}
+                  <div className="flex items-center justify-between rounded-md px-2 py-2">
+                    <Select.Item
+                      value={preset}
+                      className="flex-1 cursor-pointer rounded-md px-6 py-1 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
                     >
-                      <Play className="h-3 w-3 fill-current" />
-                    </button>
+                      <Select.ItemText>{tPresets(preset)}</Select.ItemText>
+                      <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
+                        <Check className="h-4 w-4" />
+                      </Select.ItemIndicator>
+                    </Select.Item>
+
+                    {preset !== 'none' && (
+                      <button
+                        type="button"
+                        onPointerDown={(e) => handlePreview(e, preset)}
+                        className="ml-2 rounded p-2 text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
+                        aria-label={t('previewSound', { sound: tPresets(preset) })}
+                      >
+                        <Play className="h-3 w-3 fill-current" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Progress bar - shown when this sound is previewing */}
+                  {previewingSound === preset && (
+                    <div className="mx-2 mb-2 px-2">
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-secondary">
+                        <div
+                          className="h-full rounded-full bg-primary-green transition-all duration-100 ease-linear"
+                          style={{ width: `${previewProgress}%` }}
+                          role="progressbar"
+                          aria-valuenow={Math.round(previewProgress)}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={t('previewProgress')}
+                        />
+                      </div>
+                    </div>
                   )}
                 </div>
               ))}

@@ -24,7 +24,8 @@
     "sound": "サウンド",
     "volume": "音量",
     "selectSound": "サウンドを選択",
-    "previewSound": "{sound}をプレビュー"
+    "previewSound": "{sound}をプレビュー",
+    "previewProgress": "サウンドプレビューの進捗"
   },
   "SoundPresets": {
     "gentle-bell": "やさしいベル",

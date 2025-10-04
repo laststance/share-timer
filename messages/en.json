@@ -24,7 +24,8 @@
     "sound": "Sound",
     "volume": "Volume",
     "selectSound": "Select sound",
-    "previewSound": "Preview {sound}"
+    "previewSound": "Preview {sound}",
+    "previewProgress": "Sound preview progress"
   },
   "SoundPresets": {
     "gentle-bell": "Gentle Bell",
