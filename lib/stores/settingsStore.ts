@@ -7,17 +7,6 @@ export type SoundPreset =
   | 'chime'
   | 'soft-alarm'
   | 'digital-beep'
-  // New noticeable notification sounds
-  | 'classic-tone'
-  | 'bright-ding'
-  | 'double-ping'
-  | 'service-bell'
-  | 'alert-beep'
-  | 'ascending-chime'
-  | 'notification-pop'
-  | 'cheerful-chirp'
-  | 'urgent-alert'
-  | 'melodic-bells'
   | 'none'
 
 interface SettingsState {

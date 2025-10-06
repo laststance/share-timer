@@ -1,5 +1,14 @@
 import type { SoundPreset } from '../stores/settingsStore'
 
+export const SUPPORTED_SOUND_PRESETS = [
+  'gentle-bell',
+  'chime',
+  'soft-alarm',
+  'digital-beep',
+] as const satisfies ReadonlyArray<Exclude<SoundPreset, 'none'>>
+
+const SUPPORTED_SOUND_SET = new Set<SoundPreset>(SUPPORTED_SOUND_PRESETS)
+
 class AudioManager {
   private audio: HTMLAudioElement | null = null
   private progressCallback: ((progress: number, currentTime: number, duration: number) => void) | null = null
@@ -17,6 +26,14 @@ class AudioManager {
   ) {
     // Don't play anything if preset is 'none'
     if (preset === 'none') return
+
+    // Skip presets without an available audio file to prevent loading errors
+    if (!SUPPORTED_SOUND_SET.has(preset)) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`Sound preset "${preset}" is not supported. Skipping playback.`)
+      }
+      return
+    }
 
     // Stop any currently playing audio
     this.stop()
