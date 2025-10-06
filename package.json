@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start --port 3009",
     "lint": "next lint",
-    "e2e": "playwright test"
+    "typecheck": "tsc --noEmit",
+    "e2e": "playwright test",
+    "e2e:desktop": "playwright test --project=\"Desktop Chrome\"",
+    "e2e:tablet": "playwright test --project=\"Tablet Safari\"",
+    "e2e:mobile": "playwright test --project=\"Mobile Chrome\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
