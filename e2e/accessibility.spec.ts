@@ -116,13 +116,20 @@ test.describe('Accessibility Tests', () => {
   test('language toggle is accessible', async ({ page }) => {
     await page.goto('/en')
 
-    // Find language toggle
-    const langToggle = page.getByRole('button', { name: /language|日本語|english/i })
+    // Wait for language toggle to be visible
+    await page.waitForSelector('[aria-label="Language"]')
+
+    // Find language toggle by its aria-label
+    const langToggle = page.locator('[aria-label="Language"]').first()
     await expect(langToggle).toBeVisible()
 
     // Should have proper ARIA attributes
     const hasAriaLabel = await langToggle.getAttribute('aria-label')
     expect(hasAriaLabel).toBeTruthy()
+
+    // Should be keyboard accessible
+    await langToggle.focus()
+    await expect(langToggle).toBeFocused()
   })
 
   test('timer display has ARIA live region', async ({ page }) => {

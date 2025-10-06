@@ -3,8 +3,8 @@
 /* Tailwind v4 Theme Configuration */
 @theme {
   /* Primary Colors - Updated for WCAG AA compliance (4.5:1 contrast with white) */
-  --color-primary-green: #059669;
-  --color-primary-green-dark: #047857;
+  --color-primary-green: #047857;
+  --color-primary-green-dark: #065F46;
 
   /* Background Colors */
   --color-bg-primary: #FAF9F6;

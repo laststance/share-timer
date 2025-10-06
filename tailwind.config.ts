@@ -9,8 +9,8 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          green: '#10B981',
-          'green-dark': '#059669',
+          green: '#047857',
+          'green-dark': '#065F46',
         },
         bg: {
           primary: '#FAF9F6',

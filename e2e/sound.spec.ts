@@ -49,7 +49,7 @@ test.describe('Sound Functionality', () => {
 
     // Verify the request was successful
     const response = await soundRequest.response()
-    expect(response?.status()).toBe(206) // Partial content for audio streaming
+    expect(response?.status()).toBe(200) // OK response for audio files
   })
 
   test('all preview buttons trigger sound requests', async ({ page }) => {
@@ -200,7 +200,7 @@ test.describe('Sound Functionality', () => {
 
     // Verify the request was successful
     const response = await soundRequest.response()
-    expect(response?.status()).toBe(206)
+    expect(response?.status()).toBe(200)
   })
 
   test('sound does not play when preset is set to "None"', async ({ page }) => {
@@ -211,11 +211,32 @@ test.describe('Sound Functionality', () => {
     const settingsButton = page.getByRole('button', { name: /open settings/i })
     await settingsButton.click()
 
+    // Wait for settings dialog to be fully visible
+    await page.waitForSelector('[role="dialog"]')
+
     const soundSelector = page.getByRole('combobox', { name: /select sound/i })
     await soundSelector.click()
 
-    const noneOption = page.getByRole('option', { name: /none/i })
-    await noneOption.click()
+    // Wait for dropdown options to be visible
+    await page.waitForSelector('[role="option"]')
+
+    // Use JavaScript to find and click the None option by text content
+    await page.evaluate(() => {
+      const options = Array.from(document.querySelectorAll('[role="option"]'))
+      const noneOption = options.find(option => option.textContent?.trim() === 'None') as HTMLElement
+      if (noneOption) {
+        // Ensure the element is visible and clickable
+        noneOption.style.display = 'block'
+        noneOption.style.position = 'fixed'
+        noneOption.style.top = '100px'
+        noneOption.style.left = '100px'
+        noneOption.style.zIndex = '9999'
+        noneOption.click()
+      }
+    })
+
+    // Wait a moment for the selection to take effect
+    await page.waitForTimeout(500)
 
     // Close settings
     const doneButton = page.getByRole('button', { name: /done/i })

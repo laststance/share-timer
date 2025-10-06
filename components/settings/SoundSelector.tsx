@@ -95,7 +95,7 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
 
         <Select.Portal>
           <Select.Content
-            className="overflow-hidden rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
+            className="overflow-scroll h-64 rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
             position="popper"
             sideOffset={5}
           >
