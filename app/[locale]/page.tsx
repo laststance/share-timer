@@ -34,6 +34,20 @@ export default function Home() {
   const { enabled: notificationsEnabled, permission } = useNotificationStore()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const previousTimeRef = useRef(timeRemaining)
+  const userSetTimeRef = useRef(false)
+
+  // Track when user manually sets time
+  useEffect(() => {
+    // When initialTime changes, it means user called setTime()
+    userSetTimeRef.current = true
+  }, [initialTime])
+
+  // Clear the flag when timer starts
+  useEffect(() => {
+    if (isRunning) {
+      userSetTimeRef.current = false
+    }
+  }, [isRunning])
 
   // Set up interval for ticking when timer is running
   useEffect(() => {
@@ -48,8 +62,8 @@ export default function Home() {
 
   // Play sound and show notification when timer completes
   useEffect(() => {
-    // Detect when timer just hit 0
-    if (previousTimeRef.current > 0 && timeRemaining === 0) {
+    // Detect when timer just hit 0 (but not if user manually set it to 0)
+    if (previousTimeRef.current > 0 && timeRemaining === 0 && !userSetTimeRef.current) {
       // Play sound
       audioManager.play(soundPreset, volume)
 
