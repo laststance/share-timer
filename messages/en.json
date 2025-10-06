@@ -32,6 +32,16 @@
     "chime": "Chime",
     "soft-alarm": "Soft Alarm",
     "digital-beep": "Digital Beep",
+    "classic-tone": "Classic Tone",
+    "bright-ding": "Bright Ding",
+    "double-ping": "Double Ping",
+    "service-bell": "Service Bell",
+    "alert-beep": "Alert Beep",
+    "ascending-chime": "Ascending Chime",
+    "notification-pop": "Notification Pop",
+    "cheerful-chirp": "Cheerful Chirp",
+    "urgent-alert": "Urgent Alert",
+    "melodic-bells": "Melodic Bells",
     "none": "None"
   },
   "Language": {
