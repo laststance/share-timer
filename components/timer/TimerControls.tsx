@@ -9,7 +9,6 @@ interface TimerControlsProps {
   onPause: () => void
   onReset: () => void
   isRunning: boolean
-  isPaused: boolean
 }
 
 export function TimerControls({
@@ -17,7 +16,6 @@ export function TimerControls({
   onPause,
   onReset,
   isRunning,
-  isPaused,
 }: TimerControlsProps) {
   const t = useTranslations('Timer')
 

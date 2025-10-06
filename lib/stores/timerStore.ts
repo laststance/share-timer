@@ -37,7 +37,6 @@ export const useTimerStore = create<TimerState>()(
       },
 
       start: () => {
-        const { isPaused } = get()
         set({
           isRunning: true,
           isPaused: false,

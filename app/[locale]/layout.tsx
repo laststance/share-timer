@@ -71,6 +71,11 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
+const isSupportedLocale = (
+  value: string
+): value is (typeof routing.locales)[number] =>
+  routing.locales.some((supportedLocale) => supportedLocale === value)
+
 export default async function LocaleLayout({
   children,
   params,
@@ -81,19 +86,21 @@ export default async function LocaleLayout({
   const { locale } = await params
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  if (!isSupportedLocale(locale)) {
     notFound()
   }
 
+  const resolvedLocale = locale
+
   // Enable static rendering
-  setRequestLocale(locale)
+  setRequestLocale(resolvedLocale)
 
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html lang={resolvedLocale}>
       <body className="bg-bg-primary text-text-primary antialiased">
         <ServiceWorkerRegistration />
         <NextIntlClientProvider messages={messages}>

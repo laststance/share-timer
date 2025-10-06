@@ -117,7 +117,6 @@ export default function Home() {
           onPause={pause}
           onReset={reset}
           isRunning={isRunning}
-          isPaused={isPaused}
         />
 
         {/* Time Input */}

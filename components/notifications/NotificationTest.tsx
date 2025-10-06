@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Bell, BellOff, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
+import { Bell, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useNotificationStore } from '@/lib/stores/notificationStore'
 import {
