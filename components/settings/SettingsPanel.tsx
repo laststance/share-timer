@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
+import useStore from '@/lib/hooks/useStore'
 import { SoundSelector } from './SoundSelector'
 import { VolumeControl } from './VolumeControl'
 import { NotificationToggle } from './NotificationToggle'
@@ -15,7 +16,11 @@ interface SettingsPanelProps {
 
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const t = useTranslations('Settings')
-  const { soundPreset, volume, setSoundPreset, setVolume } = useSettingsStore()
+  const settingsState = useStore(useSettingsStore, (state) => state)
+  const soundPreset = settingsState?.soundPreset ?? 'gentle-bell'
+  const volume = settingsState?.volume ?? 70
+  const setSoundPreset = settingsState?.setSoundPreset ?? (() => {})
+  const setVolume = settingsState?.setVolume ?? (() => {})
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>

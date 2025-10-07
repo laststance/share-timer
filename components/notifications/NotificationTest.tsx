@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Bell, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useNotificationStore } from '@/lib/stores/notificationStore'
+import useStore from '@/lib/hooks/useStore'
 import {
   requestNotificationPermission,
   showNotification,
@@ -16,7 +17,9 @@ import {
  */
 export function NotificationTest() {
   const t = useTranslations('Notifications')
-  const { permission, setPermission } = useNotificationStore()
+  const notificationState = useStore(useNotificationStore, (state) => state)
+  const permission = notificationState?.permission ?? 'default'
+  const setPermission = notificationState?.setPermission ?? (() => {})
   const [isRequesting, setIsRequesting] = useState(false)
   const [isSending, setIsSending] = useState(false)
 

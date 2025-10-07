@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { useNotificationStore } from '@/lib/stores/notificationStore'
+import useStore from '@/lib/hooks/useStore'
 import {
   registerServiceWorker,
   getNotificationPermission,
@@ -12,7 +13,7 @@ import {
  * Registers the Service Worker on app load and syncs notification permission state
  */
 export function ServiceWorkerRegistration() {
-  const { setPermission } = useNotificationStore()
+  const setPermission = useStore(useNotificationStore, (state) => state.setPermission) ?? (() => {})
 
   useEffect(() => {
     // Register Service Worker

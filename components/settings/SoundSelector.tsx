@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl'
 import type { SoundPreset } from '@/lib/stores/settingsStore'
 import { SUPPORTED_SOUND_PRESETS, audioManager } from '@/lib/audio/audioManager'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
+import useStore from '@/lib/hooks/useStore'
 
 interface SoundSelectorProps {
   value: SoundPreset
@@ -19,7 +20,7 @@ const FALLBACK_SOUND = SUPPORTED_SOUND_PRESETS[0]
 export function SoundSelector({ value, onChange }: SoundSelectorProps) {
   const t = useTranslations('Settings')
   const tPresets = useTranslations('SoundPresets')
-  const volume = useSettingsStore((state) => state.volume)
+  const volume = useStore(useSettingsStore, (state) => state.volume) ?? 70
   const isValueSupported = React.useMemo(() => SOUND_OPTIONS.includes(value), [value])
   const safeValue = isValueSupported ? value : FALLBACK_SOUND
 

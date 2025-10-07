@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { useTimerStore } from '@/lib/stores/timerStore'
 import { useSettingsStore } from '@/lib/stores/settingsStore'
 import { useNotificationStore } from '@/lib/stores/notificationStore'
+import useStore from '@/lib/hooks/useStore'
 import { audioManager } from '@/lib/audio/audioManager'
 import { showNotification } from '@/lib/notifications/notificationManager'
 import { TimerDisplay } from '@/components/timer/TimerDisplay'
@@ -18,20 +19,27 @@ import { NotificationTest } from '@/components/notifications/NotificationTest'
 export default function Home() {
   const t = useTranslations('App')
   const tNotifications = useTranslations('Notifications')
-  const {
-    timeRemaining,
-    initialTime,
-    isRunning,
-    isPaused,
-    setTime,
-    start,
-    pause,
-    reset,
-    tick,
-  } = useTimerStore()
+  // Use hydration-safe hook to prevent SSR mismatches
+  const timerState = useStore(useTimerStore, (state) => state)
+  const settingsState = useStore(useSettingsStore, (state) => state)
+  const notificationState = useStore(useNotificationStore, (state) => state)
 
-  const { soundPreset, volume } = useSettingsStore()
-  const { enabled: notificationsEnabled, permission } = useNotificationStore()
+  // Provide defaults during hydration
+  const timeRemaining = timerState?.timeRemaining ?? 300
+  const initialTime = timerState?.initialTime ?? 300
+  const isRunning = timerState?.isRunning ?? false
+  const isPaused = timerState?.isPaused ?? false
+  const setTime = timerState?.setTime ?? (() => {})
+  const start = timerState?.start ?? (() => {})
+  const pause = timerState?.pause ?? (() => {})
+  const reset = timerState?.reset ?? (() => {})
+  const tick = timerState?.tick ?? (() => {})
+
+  const soundPreset = settingsState?.soundPreset ?? 'gentle-bell'
+  const volume = settingsState?.volume ?? 70
+
+  const notificationsEnabled = notificationState?.enabled ?? true
+  const permission = notificationState?.permission ?? 'default'
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const previousTimeRef = useRef(timeRemaining)
   const userSetTimeRef = useRef(false)
