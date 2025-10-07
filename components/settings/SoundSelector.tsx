@@ -124,8 +124,8 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                     <div className="mx-2 mb-2 px-2">
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-secondary">
                         <div
-                          className="h-full rounded-full bg-primary-green transition-all duration-100 ease-linear"
-                          style={{ width: `${previewProgress}%` }}
+                          className="h-full rounded-full bg-primary-green progress-bar"
+                          style={{ '--progress-width': `${previewProgress}%` } as React.CSSProperties}
                           role="progressbar"
                           aria-valuenow={Math.round(previewProgress)}
                           aria-valuemin={0}

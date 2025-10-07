@@ -39,3 +39,9 @@
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Progress bar component styles */
+.progress-bar {
+  width: var(--progress-width);
+  transition: width 100ms linear;
+}
