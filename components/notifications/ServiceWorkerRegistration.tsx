@@ -13,9 +13,11 @@ import {
  * Registers the Service Worker on app load and syncs notification permission state
  */
 export function ServiceWorkerRegistration() {
-  const setPermission = useStore(useNotificationStore, (state) => state.setPermission) ?? (() => {})
+  const notificationStore = useStore(useNotificationStore, (state) => state)
 
   useEffect(() => {
+    const setPermission = notificationStore?.setPermission ?? (() => {})
+    
     // Register Service Worker
     registerServiceWorker().then((registration) => {
       if (registration) {
@@ -40,7 +42,7 @@ export function ServiceWorkerRegistration() {
           console.warn('[Notifications] Permission monitoring not supported:', error)
         })
     }
-  }, [setPermission])
+  }, [notificationStore])
 
   // This component doesn't render anything
   return null

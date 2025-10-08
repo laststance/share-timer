@@ -33,8 +33,6 @@ export default function Home() {
   const start = timerState?.start ?? (() => {})
   const pause = timerState?.pause ?? (() => {})
   const reset = timerState?.reset ?? (() => {})
-  const tick = timerState?.tick ?? (() => {})
-
   const soundPreset = settingsState?.soundPreset ?? 'gentle-bell'
   const volume = settingsState?.volume ?? 70
 
@@ -59,14 +57,14 @@ export default function Home() {
 
   // Set up interval for ticking when timer is running
   useEffect(() => {
-    if (!isRunning) return
+    if (!isRunning || !timerState?.tick) return
 
     const interval = setInterval(() => {
-      tick()
+      timerState.tick()
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [isRunning, tick])
+  }, [isRunning, timerState])
 
   // Play sound and show notification when timer completes
   useEffect(() => {
