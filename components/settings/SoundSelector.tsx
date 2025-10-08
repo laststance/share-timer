@@ -87,10 +87,8 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
 
         <Select.Portal>
           <Select.Content
-            className="overflow-auto max-h-24 sm:max-h-48 md:max-h-64 rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
+            className="overflow-auto max-h-20 sm:max-h-48 md:max-h-64 rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
             position="popper"
-            side="top"
-            align="start"
             sideOffset={5}
           >
             <Select.Viewport className="p-1">
