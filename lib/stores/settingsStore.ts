@@ -2,11 +2,22 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 export type SoundPreset =
-  // Existing relaxing sounds
+  // Legacy relaxing sounds
   | 'gentle-bell'
   | 'chime'
   | 'soft-alarm'
   | 'digital-beep'
+  // New attention-grabbing sounds
+  | 'classic-tone'
+  | 'bright-ding'
+  | 'double-ping'
+  | 'service-bell'
+  | 'alert-beep'
+  | 'ascending-chime'
+  | 'notification-pop'
+  | 'cheerful-chirp'
+  | 'urgent-alert'
+  | 'melodic-bells'
   | 'none'
 
 interface SettingsState {

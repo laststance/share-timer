@@ -32,6 +32,16 @@
     "chime": "チャイム",
     "soft-alarm": "ソフトアラーム",
     "digital-beep": "デジタルビープ",
+    "classic-tone": "クラシックトーン",
+    "bright-ding": "ブライトディング",
+    "double-ping": "ダブルピング",
+    "service-bell": "サービスベル",
+    "alert-beep": "アラートビープ",
+    "ascending-chime": "上昇チャイム",
+    "notification-pop": "通知ポップ",
+    "cheerful-chirp": "チアフルチャープ",
+    "urgent-alert": "緊急アラート",
+    "melodic-bells": "メロディックベル",
     "none": "なし"
   },
   "Language": {

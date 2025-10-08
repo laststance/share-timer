@@ -5,13 +5,25 @@ export const SUPPORTED_SOUND_PRESETS = [
   'chime',
   'soft-alarm',
   'digital-beep',
+  'classic-tone',
+  'bright-ding',
+  'double-ping',
+  'service-bell',
+  'alert-beep',
+  'ascending-chime',
+  'notification-pop',
+  'cheerful-chirp',
+  'urgent-alert',
+  'melodic-bells',
 ] as const satisfies ReadonlyArray<Exclude<SoundPreset, 'none'>>
 
 const SUPPORTED_SOUND_SET = new Set<SoundPreset>(SUPPORTED_SOUND_PRESETS)
 
 class AudioManager {
   private audio: HTMLAudioElement | null = null
-  private progressCallback: ((progress: number, currentTime: number, duration: number) => void) | null = null
+  private progressCallback:
+    | ((progress: number, currentTime: number, duration: number) => void)
+    | null = null
 
   /**
    * Play a sound preset at the specified volume with optional progress tracking
@@ -22,7 +34,11 @@ class AudioManager {
   play(
     preset: SoundPreset,
     volume: number,
-    onProgress?: (progress: number, currentTime: number, duration: number) => void
+    onProgress?: (
+      progress: number,
+      currentTime: number,
+      duration: number
+    ) => void
   ) {
     // Don't play anything if preset is 'none'
     if (preset === 'none') return
@@ -30,7 +46,9 @@ class AudioManager {
     // Skip presets without an available audio file to prevent loading errors
     if (!SUPPORTED_SOUND_SET.has(preset)) {
       if (process.env.NODE_ENV !== 'production') {
-        console.warn(`Sound preset "${preset}" is not supported. Skipping playback.`)
+        console.warn(
+          `Sound preset "${preset}" is not supported. Skipping playback.`
+        )
       }
       return
     }
@@ -105,7 +123,10 @@ class AudioManager {
    */
   private cleanup() {
     if (this.audio) {
-      this.audio.removeEventListener('loadedmetadata', this.handleLoadedMetadata)
+      this.audio.removeEventListener(
+        'loadedmetadata',
+        this.handleLoadedMetadata
+      )
       this.audio.removeEventListener('timeupdate', this.handleTimeUpdate)
       this.audio.removeEventListener('ended', this.handleEnded)
       this.audio.pause()
