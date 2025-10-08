@@ -57,14 +57,15 @@ export default function Home() {
 
   // Set up interval for ticking when timer is running
   useEffect(() => {
-    if (!isRunning || !timerState?.tick) return
+    if (!isRunning) return
 
     const interval = setInterval(() => {
-      timerState.tick()
+      // Call tick from the store directly to avoid dependency issues
+      useTimerStore.getState().tick()
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [isRunning, timerState])
+  }, [isRunning])
 
   // Play sound and show notification when timer completes
   useEffect(() => {
