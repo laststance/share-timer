@@ -100,7 +100,7 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                   <div className="flex items-center justify-between rounded-md px-2 py-2">
                     <Select.Item
                       value={preset}
-                      className="flex-1 cursor-pointer rounded-md px-6 py-1 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
+                      className="relative flex-1 cursor-pointer rounded-md pl-8 pr-4 py-1 text-sm text-text-primary outline-none data-[highlighted]:bg-primary-green data-[highlighted]:text-white"
                     >
                       <Select.ItemText>{tPresets(preset)}</Select.ItemText>
                       <Select.ItemIndicator className="absolute left-2 inline-flex items-center">
