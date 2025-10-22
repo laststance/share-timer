@@ -59,12 +59,6 @@ export function TimerDisplay({
         aria-label={`${t('timeRemaining')}: ${formattedTime}`}
         aria-live="polite"
         aria-atomic="true"
-        animate={isRunning ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-        transition={{
-          duration: 1,
-          repeat: isRunning ? Infinity : 0,
-          ease: 'easeInOut',
-        }}
       >
         {/* SVG Circular Progress */}
         <svg
