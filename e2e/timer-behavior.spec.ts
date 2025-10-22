@@ -8,6 +8,58 @@ import { test, expect } from '@playwright/test'
  * 2. Timer counting down to 0 DOES trigger completion logic (sound/notification)
  */
 test.describe('Timer Behavior', () => {
+  test('timer display matches input values on initial load', async ({
+    page,
+    context,
+  }) => {
+    // Test default state (no localStorage)
+    await context.clearCookies()
+    await page.goto('/en')
+    await page.waitForLoadState('networkidle')
+
+    // Clear localStorage
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    // Verify default: timer shows 05:00 and inputs show 5:0
+    const timerDisplay = page.locator('[role="timer"]')
+    await expect(timerDisplay).toContainText('05:00')
+
+    const minutesInput = page.getByRole('spinbutton', { name: /minutes/i })
+    const secondsInput = page.getByRole('spinbutton', { name: /seconds/i })
+    await expect(minutesInput).toHaveValue('5')
+    await expect(secondsInput).toHaveValue('0')
+
+    // Test persisted state (6 minutes in localStorage)
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'timer-storage',
+        JSON.stringify({
+          state: {
+            timeRemaining: 360,
+            initialTime: 360,
+            isRunning: false,
+            isPaused: false,
+          },
+          version: 0,
+        }),
+      )
+    })
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    // Verify persisted state: timer shows 06:00
+    await expect(timerDisplay).toContainText('06:00')
+
+    // Wait for inputs to sync with persisted timer state (hydration + useEffect)
+    await expect(minutesInput).toHaveValue('6', { timeout: 2000 })
+    await expect(secondsInput).toHaveValue('0')
+
+    // Clean up
+    await page.evaluate(() => localStorage.clear())
+  })
+
   test('setting timer to 0:0 manually does not trigger completion', async ({
     page,
   }) => {
