@@ -1,9 +1,9 @@
 // Service Worker for Share Timer Notifications
 // Handles notification display, click events, and offline caching
 
-const CACHE_NAME = 'share-timer-v2'
-const STATIC_CACHE = 'share-timer-static-v2'
-const DYNAMIC_CACHE = 'share-timer-dynamic-v2'
+const CACHE_NAME = 'share-timer-v3'
+const STATIC_CACHE = 'share-timer-static-v3'
+const DYNAMIC_CACHE = 'share-timer-dynamic-v3'
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -14,11 +14,16 @@ const STATIC_ASSETS = [
   '/badge.png',
   '/apple-touch-icon.png',
   '/favicon.ico',
-  '/sounds/chime.mp3',
-  '/sounds/digital-beep.mp3',
-  '/sounds/gentle-bell.mp3',
-  '/sounds/soft-alarm.mp3',
-  // Add other essential assets as needed
+  // Current sound presets (updated Oct 2025)
+  '/sounds/alert-beep.mp3',
+  '/sounds/ascending-chime.mp3',
+  '/sounds/bright-ding.mp3',
+  '/sounds/cheerful-chirp.mp3',
+  '/sounds/double-ping.mp3',
+  '/sounds/melodic-bells.mp3',
+  '/sounds/notification-pop.mp3',
+  '/sounds/service-bell.mp3',
+  '/sounds/urgent-alert.mp3',
 ]
 
 // Install event - cache essential resources

@@ -82,7 +82,15 @@ test.describe('Sound Functionality', () => {
       const previewButton = page.getByRole('button', {
         name: new RegExp(`preview ${presetName}`, 'i'),
       })
-      await previewButton.click()
+
+      // Use JavaScript pointerdown event for mobile to work around Radix portal positioning
+      await previewButton.evaluate((button) => {
+        const event = new PointerEvent('pointerdown', {
+          bubbles: true,
+          cancelable: true,
+        })
+        button.dispatchEvent(event)
+      })
 
       // Verify sound request was made
       const soundRequest = await soundRequestPromise

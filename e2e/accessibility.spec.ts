@@ -33,7 +33,9 @@ test.describe('Accessibility Tests', () => {
 
     // Test tab navigation
     await page.keyboard.press('Tab')
-    const firstFocused = await page.evaluate(() => document.activeElement?.tagName)
+    const firstFocused = await page.evaluate(
+      () => document.activeElement?.tagName,
+    )
     expect(firstFocused).toBeTruthy()
 
     // Test Enter/Space on buttons
@@ -82,7 +84,7 @@ test.describe('Accessibility Tests', () => {
 
     // Filter for color contrast violations
     const contrastViolations = accessibilityScanResults.violations.filter(
-      (violation) => violation.id === 'color-contrast'
+      (violation) => violation.id === 'color-contrast',
     )
 
     expect(contrastViolations).toEqual([])
@@ -105,7 +107,9 @@ test.describe('Accessibility Tests', () => {
     await page.getByRole('button', { name: /settings/i }).click()
 
     // Find notification toggle (should be a switch or checkbox)
-    const notificationToggle = page.getByRole('switch', { name: /notification/i })
+    const notificationToggle = page.getByRole('switch', {
+      name: /notification/i,
+    })
     await expect(notificationToggle).toBeVisible()
 
     // Should be keyboard operable
@@ -143,15 +147,35 @@ test.describe('Accessibility Tests', () => {
   test('touch targets are large enough (min 44x44px)', async ({ page }) => {
     await page.goto('/en')
 
-    // Get all interactive elements
+    // Get all interactive elements, excluding Next.js dev tools
     const buttons = await page.locator('button').all()
 
     for (const button of buttons) {
+      // Skip Next.js dev tools buttons (development only, not part of our app)
+      const ariaLabel = await button.getAttribute('aria-label')
+      if (
+        ariaLabel?.includes('Next.js') ||
+        ariaLabel?.includes('issues overlay') ||
+        ariaLabel?.includes('issues badge')
+      ) {
+        continue
+      }
+
       const box = await button.boundingBox()
       if (box) {
+        // Get button info for debugging
+        const text = await button.textContent()
+        const label = ariaLabel || text || 'unknown'
+
         // WCAG 2.1 AA requires 44x44px minimum for touch targets
-        expect(box.width).toBeGreaterThanOrEqual(44)
-        expect(box.height).toBeGreaterThanOrEqual(44)
+        expect(
+          box.width,
+          `Button "${label}" width should be >= 44px`,
+        ).toBeGreaterThanOrEqual(44)
+        expect(
+          box.height,
+          `Button "${label}" height should be >= 44px`,
+        ).toBeGreaterThanOrEqual(44)
       }
     }
   })

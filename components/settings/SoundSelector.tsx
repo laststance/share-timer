@@ -14,18 +14,25 @@ interface SoundSelectorProps {
   onChange: (preset: SoundPreset) => void
 }
 
-const SOUND_OPTIONS = [...SUPPORTED_SOUND_PRESETS, 'none'] as const satisfies ReadonlyArray<SoundPreset>
+const SOUND_OPTIONS = [
+  ...SUPPORTED_SOUND_PRESETS,
+  'none',
+] as const satisfies ReadonlyArray<SoundPreset>
 const FALLBACK_SOUND = SUPPORTED_SOUND_PRESETS[0]
 
 export function SoundSelector({ value, onChange }: SoundSelectorProps) {
   const t = useTranslations('Settings')
   const tPresets = useTranslations('SoundPresets')
   const volume = useStore(useSettingsStore, (state) => state.volume) ?? 70
-  const isValueSupported = React.useMemo(() => SOUND_OPTIONS.includes(value), [value])
+  const isValueSupported = React.useMemo(
+    () => SOUND_OPTIONS.includes(value),
+    [value],
+  )
   const safeValue = isValueSupported ? value : FALLBACK_SOUND
 
   // Track preview playback state
-  const [previewingSound, setPreviewingSound] = React.useState<SoundPreset | null>(null)
+  const [previewingSound, setPreviewingSound] =
+    React.useState<SoundPreset | null>(null)
   const [previewProgress, setPreviewProgress] = React.useState(0)
 
   /**
@@ -87,16 +94,13 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
 
         <Select.Portal>
           <Select.Content
-            className="overflow-auto max-h-20 sm:max-h-48 md:max-h-64 rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
+            className="overflow-auto max-h-48 md:max-h-64 rounded-lg border-2 border-bg-secondary bg-white shadow-lg"
             position="popper"
             sideOffset={5}
           >
             <Select.Viewport className="p-1">
               {SOUND_OPTIONS.map((preset) => (
-                <div
-                  key={preset}
-                  className="relative flex flex-col"
-                >
+                <div key={preset} className="relative flex flex-col">
                   <div className="flex items-center justify-between rounded-md px-2 py-2">
                     <Select.Item
                       value={preset}
@@ -112,10 +116,12 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                       <button
                         type="button"
                         onPointerDown={(e) => handlePreview(e, preset)}
-                        className="ml-2 rounded p-2 text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
-                        aria-label={t('previewSound', { sound: tPresets(preset) })}
+                        className="ml-2 rounded p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
+                        aria-label={t('previewSound', {
+                          sound: tPresets(preset),
+                        })}
                       >
-                        <Play className="h-3 w-3 fill-current" />
+                        <Play className="h-4 w-4 fill-current" />
                       </button>
                     )}
                   </div>
@@ -126,7 +132,11 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-secondary">
                         <div
                           className="h-full rounded-full bg-primary-green progress-bar"
-                          style={{ '--progress-width': `${previewProgress}%` } as React.CSSProperties}
+                          style={
+                            {
+                              '--progress-width': `${previewProgress}%`,
+                            } as React.CSSProperties
+                          }
                           role="progressbar"
                           aria-valuenow={Math.round(previewProgress)}
                           aria-valuemin={0}

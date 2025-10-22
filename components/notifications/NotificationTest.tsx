@@ -58,7 +58,9 @@ export function NotificationTest() {
         <div className="flex items-start gap-3">
           <XCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
           <div>
-            <h3 className="font-semibold text-text-primary">{t('notSupported')}</h3>
+            <h3 className="font-semibold text-text-primary">
+              {t('notSupported')}
+            </h3>
             <p className="mt-1 text-sm text-text-secondary">
               {t('notSupportedDescription')}
             </p>
@@ -78,7 +80,9 @@ export function NotificationTest() {
               <>
                 <CheckCircle className="h-5 w-5 text-primary-green" />
                 <div>
-                  <h3 className="font-semibold text-text-primary">{t('permissionGranted')}</h3>
+                  <h3 className="font-semibold text-text-primary">
+                    {t('permissionGranted')}
+                  </h3>
                   <p className="text-sm text-text-secondary">
                     {t('permissionGrantedDescription')}
                   </p>
@@ -90,7 +94,9 @@ export function NotificationTest() {
               <>
                 <XCircle className="h-5 w-5 text-red-500" />
                 <div>
-                  <h3 className="font-semibold text-text-primary">{t('permissionDenied')}</h3>
+                  <h3 className="font-semibold text-text-primary">
+                    {t('permissionDenied')}
+                  </h3>
                   <p className="text-sm text-text-secondary">
                     {t('permissionDeniedDescription')}
                   </p>
@@ -102,7 +108,9 @@ export function NotificationTest() {
               <>
                 <AlertCircle className="h-5 w-5 text-amber-500" />
                 <div>
-                  <h3 className="font-semibold text-text-primary">{t('permissionDefault')}</h3>
+                  <h3 className="font-semibold text-text-primary">
+                    {t('permissionDefault')}
+                  </h3>
                   <p className="text-sm text-text-secondary">
                     {t('permissionDefaultDescription')}
                   </p>
@@ -115,7 +123,7 @@ export function NotificationTest() {
             <button
               onClick={handleRequestPermission}
               disabled={isRequesting}
-              className="rounded-lg bg-primary-green px-4 py-2 font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2 disabled:opacity-50"
+              className="rounded-lg bg-primary-green px-4 py-3 min-h-[44px] font-semibold text-white shadow-soft transition-colors hover:bg-primary-green-dark focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2 disabled:opacity-50"
             >
               {isRequesting ? t('requesting') : t('requestPermission')}
             </button>
@@ -130,7 +138,9 @@ export function NotificationTest() {
             <div className="flex items-center gap-3">
               <Bell className="h-5 w-5 text-text-secondary" />
               <div>
-                <h3 className="font-semibold text-text-primary">{t('testNotification')}</h3>
+                <h3 className="font-semibold text-text-primary">
+                  {t('testNotification')}
+                </h3>
                 <p className="text-sm text-text-secondary">
                   {t('testNotificationDescription')}
                 </p>
@@ -140,7 +150,7 @@ export function NotificationTest() {
             <button
               onClick={handleTestNotification}
               disabled={isSending}
-              className="rounded-lg border-2 border-primary-green px-4 py-2 font-semibold text-primary-green transition-colors hover:bg-primary-green hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2 disabled:opacity-50"
+              className="rounded-lg border-2 border-primary-green px-4 py-3 min-h-[44px] font-semibold text-primary-green transition-colors hover:bg-primary-green hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2 disabled:opacity-50"
             >
               {isSending ? t('sending') : t('sendTest')}
             </button>
