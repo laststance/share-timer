@@ -2,20 +2,25 @@ import { test, expect } from '@playwright/test'
 
 /**
  * Timer behavior tests
- * 
+ *
  * These tests verify that:
  * 1. Setting timer to 0:0 manually does NOT trigger completion logic (no sound/notification)
  * 2. Timer counting down to 0 DOES trigger completion logic (sound/notification)
  */
 test.describe('Timer Behavior', () => {
-  test('setting timer to 0:0 manually does not trigger completion', async ({ page }) => {
+  test('setting timer to 0:0 manually does not trigger completion', async ({
+    page,
+  }) => {
     await page.goto('/en')
     await page.waitForLoadState('networkidle')
 
     // Track all sound requests
     const soundRequests: string[] = []
     page.on('request', (request) => {
-      if (request.url().includes('/sounds/') && request.url().endsWith('.mp3')) {
+      if (
+        request.url().includes('/sounds/') &&
+        request.url().endsWith('.mp3')
+      ) {
         soundRequests.push(request.url())
       }
     })
@@ -50,7 +55,9 @@ test.describe('Timer Behavior', () => {
     // User cannot start a 0:0 timer
   })
 
-  test('timer counting down to 0 triggers completion with sound', async ({ page }) => {
+  test('timer counting down to 0 triggers completion with sound', async ({
+    page,
+  }) => {
     await page.goto('/en')
     await page.waitForLoadState('domcontentloaded')
 
@@ -76,7 +83,7 @@ test.describe('Timer Behavior', () => {
         const url = request.url()
         return url.includes('/sounds/') && url.endsWith('.mp3')
       },
-      { timeout: 5000 } // 2 seconds for timer + 3 seconds buffer
+      { timeout: 5000 }, // 2 seconds for timer + 3 seconds buffer
     )
 
     // Start the timer
@@ -85,14 +92,16 @@ test.describe('Timer Behavior', () => {
 
     // Verify timer started (pause button should be visible)
     await expect(page.getByRole('button', { name: /pause/i })).toBeVisible({
-      timeout: 1000
+      timeout: 1000,
     })
 
     // Wait for sound request when timer completes
     const soundRequest = await soundRequestPromise
 
-    // Verify a sound file was requested (default is gentle-bell)
-    expect(soundRequest.url()).toMatch(/\/sounds\/(gentle-bell|chime|soft-alarm|digital-beep)\.mp3/)
+    // Verify a sound file was requested (default is ascending-chime)
+    expect(soundRequest.url()).toMatch(
+      /\/sounds\/(ascending-chime|bright-ding|alert-beep|service-bell)\.mp3/,
+    )
 
     // Verify the request was successful (200 or 206 for audio streaming)
     const response = await soundRequest.response()
@@ -105,7 +114,9 @@ test.describe('Timer Behavior', () => {
     await expect(page.getByRole('button', { name: /start/i })).toBeVisible()
   })
 
-  test.skip('timer completion respects "None" sound preset', async ({ page }) => {
+  test.skip('timer completion respects "None" sound preset', async ({
+    page,
+  }) => {
     // Skipping due to UI dropdown interaction issues in test environment
     // The functionality works correctly in manual testing
     await page.goto('/en')
@@ -131,7 +142,10 @@ test.describe('Timer Behavior', () => {
     // Track all sound requests
     const soundRequests: string[] = []
     page.on('request', (request) => {
-      if (request.url().includes('/sounds/') && request.url().endsWith('.mp3')) {
+      if (
+        request.url().includes('/sounds/') &&
+        request.url().endsWith('.mp3')
+      ) {
         soundRequests.push(request.url())
       }
     })
@@ -158,7 +172,9 @@ test.describe('Timer Behavior', () => {
     expect(soundRequests).toHaveLength(0)
   })
 
-  test('pausing and resuming timer maintains completion behavior', async ({ page }) => {
+  test('pausing and resuming timer maintains completion behavior', async ({
+    page,
+  }) => {
     await page.goto('/en')
     await page.waitForLoadState('domcontentloaded')
 
@@ -194,7 +210,7 @@ test.describe('Timer Behavior', () => {
         const url = request.url()
         return url.includes('/sounds/') && url.endsWith('.mp3')
       },
-      { timeout: 5000 }
+      { timeout: 5000 },
     )
 
     // Resume the timer (click "Start" button)
@@ -205,14 +221,18 @@ test.describe('Timer Behavior', () => {
     const soundRequest = await soundRequestPromise
 
     // Verify sound was requested
-    expect(soundRequest.url()).toMatch(/\/sounds\/(gentle-bell|chime|soft-alarm|digital-beep)\.mp3/)
+    expect(soundRequest.url()).toMatch(
+      /\/sounds\/(ascending-chime|bright-ding|alert-beep|service-bell)\.mp3/,
+    )
 
     // Verify completion
     const timerDisplay = page.locator('[role="timer"]')
     await expect(timerDisplay).toContainText('00:00')
   })
 
-  test('resetting timer from 0:0 and running to completion works correctly', async ({ page }) => {
+  test('resetting timer from 0:0 and running to completion works correctly', async ({
+    page,
+  }) => {
     await page.goto('/en')
     await page.waitForLoadState('domcontentloaded')
 
@@ -232,7 +252,10 @@ test.describe('Timer Behavior', () => {
     // Track sound requests from this point
     const soundRequests: string[] = []
     page.on('request', (request) => {
-      if (request.url().includes('/sounds/') && request.url().endsWith('.mp3')) {
+      if (
+        request.url().includes('/sounds/') &&
+        request.url().endsWith('.mp3')
+      ) {
         soundRequests.push(request.url())
       }
     })
@@ -247,8 +270,9 @@ test.describe('Timer Behavior', () => {
 
     // Set up sound request monitoring
     const soundRequestPromise = page.waitForRequest(
-      (request) => request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
-      { timeout: 5000 }
+      (request) =>
+        request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
+      { timeout: 5000 },
     )
 
     // Start the timer
@@ -257,7 +281,9 @@ test.describe('Timer Behavior', () => {
 
     // Wait for completion sound
     const soundRequest = await soundRequestPromise
-    expect(soundRequest.url()).toMatch(/\/sounds\/(gentle-bell|chime|soft-alarm|digital-beep)\.mp3/)
+    expect(soundRequest.url()).toMatch(
+      /\/sounds\/(ascending-chime|bright-ding|alert-beep|service-bell)\.mp3/,
+    )
 
     // Verify completion
     await expect(timerDisplay).toContainText('00:00')

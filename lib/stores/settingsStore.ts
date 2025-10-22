@@ -2,13 +2,6 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 export type SoundPreset =
-  // Legacy relaxing sounds
-  | 'gentle-bell'
-  | 'chime'
-  | 'soft-alarm'
-  | 'digital-beep'
-  // New attention-grabbing sounds
-  | 'classic-tone'
   | 'bright-ding'
   | 'double-ping'
   | 'service-bell'
@@ -34,7 +27,7 @@ export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
       // Initial state
-      soundPreset: 'gentle-bell',
+      soundPreset: 'ascending-chime',
       volume: 70,
 
       // Actions
@@ -51,6 +44,6 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: 'settings-storage',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 )

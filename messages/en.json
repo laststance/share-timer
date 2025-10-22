@@ -28,11 +28,6 @@
     "previewProgress": "Sound preview progress"
   },
   "SoundPresets": {
-    "gentle-bell": "Gentle Bell",
-    "chime": "Chime",
-    "soft-alarm": "Soft Alarm",
-    "digital-beep": "Digital Beep",
-    "classic-tone": "Classic Tone",
     "bright-ding": "Bright Ding",
     "double-ping": "Double Ping",
     "service-bell": "Service Bell",

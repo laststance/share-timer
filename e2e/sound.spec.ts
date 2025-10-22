@@ -2,11 +2,11 @@ import { test, expect } from '@playwright/test'
 
 /**
  * Sound functionality tests
- * 
+ *
  * These tests verify that:
  * 1. Preview buttons in sound selector trigger audio playback
  * 2. Timer completion triggers the selected sound to play
- * 
+ *
  * Note: Actual audio playback cannot be verified in headless mode,
  * but we can verify that the audio files are requested from the server.
  */
@@ -35,21 +35,24 @@ test.describe('Sound Functionality', () => {
     // Set up network request monitoring before clicking preview
     // We're monitoring for any MP3 file request
     const soundRequestPromise = page.waitForRequest(
-      (request) => request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
-      { timeout: 3000 }
+      (request) =>
+        request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
+      { timeout: 3000 },
     )
 
-    // Click the preview button for "Chime"
-    const previewButton = page.getByRole('button', { name: /preview chime/i })
+    // Click the preview button for "Ascending Chime"
+    const previewButton = page.getByRole('button', {
+      name: /preview ascending chime/i,
+    })
     await previewButton.click()
 
     // Verify that a sound file was requested
     const soundRequest = await soundRequestPromise
-    expect(soundRequest.url()).toContain('/sounds/chime.mp3')
+    expect(soundRequest.url()).toContain('/sounds/ascending-chime.mp3')
 
-    // Verify the request was successful
+    // Verify the request was successful (200 or 206 for audio streaming)
     const response = await soundRequest.response()
-    expect(response?.status()).toBe(200) // OK response for audio files
+    expect([200, 206]).toContain(response?.status())
   })
 
   test('all preview buttons trigger sound requests', async ({ page }) => {
@@ -64,23 +67,28 @@ test.describe('Sound Functionality', () => {
     const soundSelector = page.getByRole('combobox', { name: /select sound/i })
     await soundSelector.click()
 
-    // Test each sound preset
-    const soundPresets = ['Gentle Bell', 'Soft Alarm', 'Digital Beep']
+    // Test each sound preset (using valid remaining sounds)
+    const soundPresets = ['Bright Ding', 'Alert Beep', 'Service Bell']
 
     for (const presetName of soundPresets) {
       // Set up network request monitoring
       const soundRequestPromise = page.waitForRequest(
-        (request) => request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
-        { timeout: 3000 }
+        (request) =>
+          request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
+        { timeout: 3000 },
       )
 
       // Click the preview button
-      const previewButton = page.getByRole('button', { name: new RegExp(`preview ${presetName}`, 'i') })
+      const previewButton = page.getByRole('button', {
+        name: new RegExp(`preview ${presetName}`, 'i'),
+      })
       await previewButton.click()
 
       // Verify sound request was made
       const soundRequest = await soundRequestPromise
-      expect(soundRequest.url()).toMatch(/\/sounds\/(gentle-bell|chime|soft-alarm|digital-beep)\.mp3/)
+      expect(soundRequest.url()).toMatch(
+        /\/sounds\/(ascending-chime|bright-ding|alert-beep|service-bell)\.mp3/,
+      )
 
       // Wait a bit before testing next sound
       await page.waitForTimeout(500)
@@ -118,7 +126,7 @@ test.describe('Sound Functionality', () => {
         const url = request.url()
         return url.includes('/sounds/') && url.endsWith('.mp3')
       },
-      { timeout: 6000 } // 3 seconds for timer + 3 seconds buffer
+      { timeout: 6000 }, // 3 seconds for timer + 3 seconds buffer
     )
 
     // Start the timer
@@ -127,14 +135,14 @@ test.describe('Sound Functionality', () => {
 
     // Verify timer started
     await expect(page.getByRole('button', { name: /pause/i })).toBeVisible({
-      timeout: 1000
+      timeout: 1000,
     })
 
     // Wait for sound request when timer completes
     const soundRequest = await soundRequestPromise
 
-    // Verify the correct sound file was requested (default is gentle-bell)
-    expect(soundRequest.url()).toContain('/sounds/gentle-bell.mp3')
+    // Verify the correct sound file was requested (default is ascending-chime)
+    expect(soundRequest.url()).toContain('/sounds/ascending-chime.mp3')
 
     // Verify the request was successful (206 for partial content/streaming)
     const response = await soundRequest.response()
@@ -145,7 +153,9 @@ test.describe('Sound Functionality', () => {
   })
 
   // TODO: Fix timer completion sound test - same issue as above
-  test.skip('timer completion respects selected sound preset', async ({ page }) => {
+  test.skip('timer completion respects selected sound preset', async ({
+    page,
+  }) => {
     await page.goto('/en')
     await page.waitForLoadState('domcontentloaded')
 
@@ -160,7 +170,9 @@ test.describe('Sound Functionality', () => {
     const soundSelector = page.getByRole('combobox', { name: /select sound/i })
     await soundSelector.click()
 
-    const digitalBeepOption = page.getByRole('option', { name: /digital beep/i })
+    const digitalBeepOption = page.getByRole('option', {
+      name: /digital beep/i,
+    })
     await digitalBeepOption.click()
 
     // Close settings
@@ -181,8 +193,8 @@ test.describe('Sound Functionality', () => {
 
     // Set up network request monitoring BEFORE starting timer
     const soundRequestPromise = page.waitForRequest(
-      (request) => request.url().includes('/sounds/digital-beep.mp3'),
-      { timeout: 6000 }
+      (request) => request.url().includes('/sounds/ascending-chime.mp3'),
+      { timeout: 6000 },
     )
 
     // Start the timer
@@ -191,12 +203,12 @@ test.describe('Sound Functionality', () => {
 
     // Verify timer started
     await expect(page.getByRole('button', { name: /pause/i })).toBeVisible({
-      timeout: 1000
+      timeout: 1000,
     })
 
     // Wait for timer to complete and verify correct sound was requested
     const soundRequest = await soundRequestPromise
-    expect(soundRequest.url()).toContain('/sounds/digital-beep.mp3')
+    expect(soundRequest.url()).toContain('/sounds/ascending-chime.mp3')
 
     // Verify the request was successful
     const response = await soundRequest.response()
@@ -223,7 +235,9 @@ test.describe('Sound Functionality', () => {
     // Use JavaScript to find and click the None option by text content
     await page.evaluate(() => {
       const options = Array.from(document.querySelectorAll('[role="option"]'))
-      const noneOption = options.find(option => option.textContent?.trim() === 'None') as HTMLElement
+      const noneOption = options.find(
+        (option) => option.textContent?.trim() === 'None',
+      ) as HTMLElement
       if (noneOption) {
         // Ensure the element is visible and clickable
         noneOption.style.display = 'block'
@@ -252,7 +266,10 @@ test.describe('Sound Functionality', () => {
     // Track all network requests
     const soundRequests: string[] = []
     page.on('request', (request) => {
-      if (request.url().includes('/sounds/') && request.url().endsWith('.mp3')) {
+      if (
+        request.url().includes('/sounds/') &&
+        request.url().endsWith('.mp3')
+      ) {
         soundRequests.push(request.url())
       }
     })
@@ -288,12 +305,15 @@ test.describe('Sound Functionality', () => {
 
     // Set up network monitoring
     const soundRequestPromise = page.waitForRequest(
-      (request) => request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
-      { timeout: 3000 }
+      (request) =>
+        request.url().includes('/sounds/') && request.url().endsWith('.mp3'),
+      { timeout: 3000 },
     )
 
-    // Click the preview button directly
-    const previewButton = page.getByRole('button', { name: /preview gentle bell/i })
+    // Click the preview button directly (using valid remaining sound)
+    const previewButton = page.getByRole('button', {
+      name: /preview ascending chime/i,
+    })
     await expect(previewButton).toBeVisible()
     await previewButton.click()
 
@@ -306,4 +326,3 @@ test.describe('Sound Functionality', () => {
     expect(ariaLabel).toContain('Preview')
   })
 })
-

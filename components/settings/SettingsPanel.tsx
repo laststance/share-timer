@@ -17,7 +17,7 @@ interface SettingsPanelProps {
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const t = useTranslations('Settings')
   const settingsState = useStore(useSettingsStore, (state) => state)
-  const soundPreset = settingsState?.soundPreset ?? 'gentle-bell'
+  const soundPreset = settingsState?.soundPreset ?? 'ascending-chime'
   const volume = settingsState?.volume ?? 70
   const setSoundPreset = settingsState?.setSoundPreset ?? (() => {})
   const setVolume = settingsState?.setVolume ?? (() => {})

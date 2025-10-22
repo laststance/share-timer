@@ -33,7 +33,7 @@ export default function Home() {
   const start = timerState?.start ?? (() => {})
   const pause = timerState?.pause ?? (() => {})
   const reset = timerState?.reset ?? (() => {})
-  const soundPreset = settingsState?.soundPreset ?? 'gentle-bell'
+  const soundPreset = settingsState?.soundPreset ?? 'ascending-chime'
   const volume = settingsState?.volume ?? 70
 
   const notificationsEnabled = notificationState?.enabled ?? true
@@ -70,7 +70,11 @@ export default function Home() {
   // Play sound and show notification when timer completes
   useEffect(() => {
     // Detect when timer just hit 0 (but not if user manually set it to 0)
-    if (previousTimeRef.current > 0 && timeRemaining === 0 && !userSetTimeRef.current) {
+    if (
+      previousTimeRef.current > 0 &&
+      timeRemaining === 0 &&
+      !userSetTimeRef.current
+    ) {
       // Play sound
       audioManager.play(soundPreset, volume)
 
@@ -85,7 +89,14 @@ export default function Home() {
       }
     }
     previousTimeRef.current = timeRemaining
-  }, [timeRemaining, soundPreset, volume, notificationsEnabled, permission, tNotifications])
+  }, [
+    timeRemaining,
+    soundPreset,
+    volume,
+    notificationsEnabled,
+    permission,
+    tNotifications,
+  ])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12 p-8">

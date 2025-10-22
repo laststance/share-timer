@@ -28,11 +28,6 @@
     "previewProgress": "サウンドプレビューの進捗"
   },
   "SoundPresets": {
-    "gentle-bell": "やさしいベル",
-    "chime": "チャイム",
-    "soft-alarm": "ソフトアラーム",
-    "digital-beep": "デジタルビープ",
-    "classic-tone": "クラシックトーン",
     "bright-ding": "ブライトディング",
     "double-ping": "ダブルピング",
     "service-bell": "サービスベル",

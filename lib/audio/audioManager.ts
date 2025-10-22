@@ -1,11 +1,6 @@
 import type { SoundPreset } from '../stores/settingsStore'
 
 export const SUPPORTED_SOUND_PRESETS = [
-  'gentle-bell',
-  'chime',
-  'soft-alarm',
-  'digital-beep',
-  'classic-tone',
   'bright-ding',
   'double-ping',
   'service-bell',
@@ -37,8 +32,8 @@ class AudioManager {
     onProgress?: (
       progress: number,
       currentTime: number,
-      duration: number
-    ) => void
+      duration: number,
+    ) => void,
   ) {
     // Don't play anything if preset is 'none'
     if (preset === 'none') return
@@ -47,7 +42,7 @@ class AudioManager {
     if (!SUPPORTED_SOUND_SET.has(preset)) {
       if (process.env.NODE_ENV !== 'production') {
         console.warn(
-          `Sound preset "${preset}" is not supported. Skipping playback.`
+          `Sound preset "${preset}" is not supported. Skipping playback.`,
         )
       }
       return
@@ -125,7 +120,7 @@ class AudioManager {
     if (this.audio) {
       this.audio.removeEventListener(
         'loadedmetadata',
-        this.handleLoadedMetadata
+        this.handleLoadedMetadata,
       )
       this.audio.removeEventListener('timeupdate', this.handleTimeUpdate)
       this.audio.removeEventListener('ended', this.handleEnded)

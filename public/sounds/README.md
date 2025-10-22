@@ -6,11 +6,6 @@ This directory contains the audio files for the timer completion sounds.
 
 | Filename               | Description                        | Duration (s) | Source                                                                                                                 |
 | ---------------------- | ---------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `gentle-bell.mp3`      | Soft, calming bell sound           | 31.87        | Built-in legacy asset                                                                                                  |
-| `chime.mp3`            | Wind chime sound                   | 31.87        | Built-in legacy asset                                                                                                  |
-| `soft-alarm.mp3`       | Gentle wake-up alarm               | 31.87        | Built-in legacy asset                                                                                                  |
-| `digital-beep.mp3`     | Modern digital beep sound          | 31.87        | Built-in legacy asset                                                                                                  |
-| `classic-tone.mp3`     | iOS-style tri-tone notification    | 3.01         | [Mixkit – Magic notification ring 2344](https://mixkit.co/free-sound-effects/discover/magic-notification-ring-2344/)   |
 | `bright-ding.mp3`      | Bright single notification ding    | 3.36         | [Mixkit – Bell notification 933](https://mixkit.co/free-sound-effects/discover/bell-notification-933/)                 |
 | `double-ping.mp3`      | Two-tone digital ping              | 1.33         | [Mixkit – Software interface back 2575](https://mixkit.co/free-sound-effects/discover/software-interface-back-2575/)   |
 | `service-bell.mp3`     | Classic desk bell ding             | 1.18         | [Mixkit – Service bell 931](https://mixkit.co/free-sound-effects/discover/service-bell-931/)                           |
@@ -66,11 +61,6 @@ After updating sound files, test them using:
 
 The application expects files at these exact paths (lowercase, hyphenated):
 
-- `/sounds/gentle-bell.mp3`
-- `/sounds/chime.mp3`
-- `/sounds/soft-alarm.mp3`
-- `/sounds/digital-beep.mp3`
-- `/sounds/classic-tone.mp3`
 - `/sounds/bright-ding.mp3`
 - `/sounds/double-ping.mp3`
 - `/sounds/service-bell.mp3`
