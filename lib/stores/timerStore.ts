@@ -7,6 +7,8 @@ interface TimerState {
   initialTime: number // seconds
   isRunning: boolean
   isPaused: boolean
+  targetEndTime: number | null // timestamp when timer should end
+  lastUpdateTime: number // timestamp of last update (for pause/resume)
 
   // Actions
   setTime: (minutes: number, seconds: number) => void
@@ -14,6 +16,7 @@ interface TimerState {
   pause: () => void
   reset: () => void
   tick: () => void
+  updateTimeRemaining: () => void // recalculate time based on timestamp
 }
 
 export const useTimerStore = create<TimerState>()(
@@ -24,6 +27,8 @@ export const useTimerStore = create<TimerState>()(
       initialTime: 300,
       isRunning: false,
       isPaused: false,
+      targetEndTime: null,
+      lastUpdateTime: Date.now(),
 
       // Actions
       setTime: (minutes: number, seconds: number) => {
@@ -33,20 +38,39 @@ export const useTimerStore = create<TimerState>()(
           initialTime: totalSeconds,
           isRunning: false,
           isPaused: false,
+          targetEndTime: null,
+          lastUpdateTime: Date.now(),
         })
       },
 
       start: () => {
+        const { timeRemaining } = get()
+        const now = Date.now()
         set({
           isRunning: true,
           isPaused: false,
+          targetEndTime: now + timeRemaining * 1000,
+          lastUpdateTime: now,
         })
       },
 
       pause: () => {
+        const { targetEndTime } = get()
+        const now = Date.now()
+
+        // Calculate current remaining time when pausing
+        let currentRemaining = 0
+        if (targetEndTime) {
+          const remainingMs = targetEndTime - now
+          currentRemaining = Math.max(0, Math.ceil(remainingMs / 1000))
+        }
+
         set({
           isRunning: false,
           isPaused: true,
+          timeRemaining: currentRemaining,
+          targetEndTime: null,
+          lastUpdateTime: now,
         })
       },
 
@@ -56,24 +80,64 @@ export const useTimerStore = create<TimerState>()(
           timeRemaining: initialTime,
           isRunning: false,
           isPaused: false,
+          targetEndTime: null,
+          lastUpdateTime: Date.now(),
         })
       },
 
       tick: () => {
-        const { timeRemaining, isRunning } = get()
-        if (isRunning && timeRemaining > 0) {
-          set({ timeRemaining: timeRemaining - 1 })
+        const { isRunning, targetEndTime } = get()
+        if (!isRunning || !targetEndTime) return
 
-          // Auto-stop when reaching zero
-          if (timeRemaining - 1 === 0) {
-            set({ isRunning: false })
-          }
+        const now = Date.now()
+        const remainingMs = targetEndTime - now
+
+        if (remainingMs <= 0) {
+          // Timer completed
+          set({
+            timeRemaining: 0,
+            isRunning: false,
+            targetEndTime: null,
+            lastUpdateTime: now,
+          })
+        } else {
+          // Update remaining time based on actual elapsed time
+          const remainingSeconds = Math.ceil(remainingMs / 1000)
+          set({
+            timeRemaining: remainingSeconds,
+            lastUpdateTime: now,
+          })
+        }
+      },
+
+      updateTimeRemaining: () => {
+        const { isRunning, targetEndTime } = get()
+        if (!isRunning || !targetEndTime) return
+
+        const now = Date.now()
+        const remainingMs = targetEndTime - now
+
+        if (remainingMs <= 0) {
+          // Timer completed while tab was hidden
+          set({
+            timeRemaining: 0,
+            isRunning: false,
+            targetEndTime: null,
+            lastUpdateTime: now,
+          })
+        } else {
+          // Recalculate remaining time
+          const remainingSeconds = Math.ceil(remainingMs / 1000)
+          set({
+            timeRemaining: remainingSeconds,
+            lastUpdateTime: now,
+          })
         }
       },
     }),
     {
       name: 'timer-storage',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 )

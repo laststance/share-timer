@@ -67,6 +67,21 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [isRunning])
 
+  // Handle Page Visibility API for background timer
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Tab became visible - recalculate time remaining
+        useTimerStore.getState().updateTimeRemaining()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
+
   // Play sound and show notification when timer completes
   useEffect(() => {
     // Detect when timer just hit 0 (but not if user manually set it to 0)
