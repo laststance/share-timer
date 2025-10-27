@@ -36,7 +36,7 @@ export function TimerDisplay({
 
   // Determine color based on state
   const getColor = () => {
-    if (timeRemaining === 0) return '#EF4444' // red when complete
+    if (timeRemaining === 0) return '#9CA3AF' // gray when complete
     if (isPaused) return '#FBBF24' // amber when paused
     if (isRunning) return '#10B981' // green when running
     return '#9CA3AF' // gray when idle
