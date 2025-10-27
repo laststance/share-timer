@@ -116,7 +116,7 @@ export function SoundSelector({ value, onChange }: SoundSelectorProps) {
                       <button
                         type="button"
                         onPointerDown={(e) => handlePreview(e, preset)}
-                        className="ml-2 rounded p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
+                        className="ml-2 rounded p-3 min-w-11 min-h-11 flex items-center justify-center text-text-primary hover:bg-bg-secondary hover:text-primary-green transition-colors"
                         aria-label={t('previewSound', {
                           sound: tPresets(preset),
                         })}
