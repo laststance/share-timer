@@ -14,6 +14,7 @@ import { TimerControls } from '@/components/timer/TimerControls'
 import { TimeInput } from '@/components/timer/TimeInput'
 import { SettingsPanel } from '@/components/settings/SettingsPanel'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { ServiceWorkerRegistration } from '@/components/notifications/ServiceWorkerRegistration'
 import { NotificationTest } from '@/components/notifications/NotificationTest'
 
 export default function Home() {
@@ -115,6 +116,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12 p-8">
+      {/* Service Worker Registration - runs once on mount */}
+      <ServiceWorkerRegistration />
+
       <div className="mx-auto w-full max-w-2xl space-y-12">
         {/* Header with Language and Settings */}
         <div className="relative text-center">
