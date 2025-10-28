@@ -115,19 +115,16 @@ Place these files in the `public/sounds/` directory:
 ### Free Royalty-Free Sources:
 
 1. **Freesound.org** - https://freesound.org/
-
    - Large collection of Creative Commons sounds
    - Search for "notification" or specific sound types
    - Download as MP3 or convert from WAV
 
 2. **Pixabay** - https://pixabay.com/sound-effects/
-
    - Free for commercial use
    - Search: "notification sound"
    - Direct MP3 downloads available
 
 3. **Zapsplat** - https://www.zapsplat.com/
-
    - Free with attribution (or paid for no attribution)
    - Large notification sound collection
    - Search by category: Notifications/Alerts

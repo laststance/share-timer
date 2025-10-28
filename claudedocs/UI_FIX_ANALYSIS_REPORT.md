@@ -11,6 +11,7 @@
 Successfully identified and resolved critical UI visibility issues affecting the Share Timer application. The root cause was a **Tailwind CSS v3 to v4 migration incompatibility** that prevented custom color utilities from being generated, resulting in invisible buttons and transparent modals.
 
 ### Issues Fixed
+
 1. ✅ **Buttons completely invisible** - All buttons now properly visible with correct colors
 2. ✅ **Settings modal transparent background** - Modal now has solid background with proper contrast
 3. ✅ **Poor color contrast** - Updated primary green color for WCAG AA compliance
@@ -32,6 +33,7 @@ Successfully identified and resolved critical UI visibility issues affecting the
    - `tailwind.config.ts`: Using v3 configuration format ✗
 
 2. **Impact**:
+
    ```typescript
    // tailwind.config.ts (v3 format - IGNORED by v4)
    theme: {
@@ -64,8 +66,9 @@ Successfully identified and resolved critical UI visibility issues affecting the
 **File**: `/Users/ryotamurakami/laststance/share-timer/app/globals.css`
 
 **Implementation**:
+
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Tailwind v4 Theme Configuration */
 @theme {
@@ -74,20 +77,20 @@ Successfully identified and resolved critical UI visibility issues affecting the
   --color-primary-green-dark: #047857;
 
   /* Background Colors */
-  --color-bg-primary: #FAF9F6;
-  --color-bg-secondary: #F3F4F6;
+  --color-bg-primary: #faf9f6;
+  --color-bg-secondary: #f3f4f6;
 
   /* Text Colors */
   --color-text-primary: #374151;
-  --color-text-secondary: #6B7280;
+  --color-text-secondary: #6b7280;
 
   /* Accent Colors */
-  --color-accent-blue: #60A5FA;
-  --color-accent-amber: #FBBF24;
+  --color-accent-blue: #60a5fa;
+  --color-accent-amber: #fbbf24;
 
   /* Additional Grays for proper button styling */
-  --color-gray-500: #6B7280;
-  --color-gray-600: #4B5563;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
   --color-gray-700: #374151;
 
   /* Box Shadow */
@@ -96,6 +99,7 @@ Successfully identified and resolved critical UI visibility issues affecting the
 ```
 
 **Benefits**:
+
 - Native v4 support with CSS-based theme configuration
 - No component changes required
 - Proper integration with Tailwind's color system
@@ -110,11 +114,13 @@ Successfully identified and resolved critical UI visibility issues affecting the
 **Fix**: Updated to darker green (#059669) achieving 4.5:1+ contrast ratio.
 
 **Impact**:
+
 - ✅ Start button: Now WCAG AA compliant
 - ✅ Done button: Now WCAG AA compliant
 - ✅ Enable notifications button: Now WCAG AA compliant
 
 **Color Comparison**:
+
 ```
 Before: #10B981 (Emerald 500) → 2.53:1 contrast ✗
 After:  #059669 (Emerald 600) → 4.5:1+ contrast ✓
@@ -127,6 +133,7 @@ After:  #059669 (Emerald 600) → 4.5:1+ contrast ✓
 **Issue**: Multiple interactive elements below 44x44px minimum (WCAG 2.1 AA).
 
 **Files Modified**:
+
 1. `components/timer/TimerControls.tsx`
 2. `components/settings/SettingsPanel.tsx`
 3. `components/LanguageToggle.tsx`
@@ -134,14 +141,14 @@ After:  #059669 (Emerald 600) → 4.5:1+ contrast ✓
 
 **Changes**:
 
-| Component | Before | After | Status |
-|-----------|--------|-------|--------|
+| Component           | Before        | After          | Status   |
+| ------------------- | ------------- | -------------- | -------- |
 | Start/Pause buttons | `py-4` (40px) | `py-5` (44px+) | ✅ Fixed |
-| Reset button | `py-4` (40px) | `py-5` (44px+) | ✅ Fixed |
-| Settings gear icon | `p-2` (36px) | `p-3` (44px+) | ✅ Fixed |
-| Close modal button | `p-1` (32px) | `p-3` (44px+) | ✅ Fixed |
-| Done button | `py-2` (36px) | `py-3` (44px+) | ✅ Fixed |
-| Language toggle | `py-2` (36px) | `py-3` (44px+) | ✅ Fixed |
+| Reset button        | `py-4` (40px) | `py-5` (44px+) | ✅ Fixed |
+| Settings gear icon  | `p-2` (36px)  | `p-3` (44px+)  | ✅ Fixed |
+| Close modal button  | `p-1` (32px)  | `p-3` (44px+)  | ✅ Fixed |
+| Done button         | `py-2` (36px) | `py-3` (44px+) | ✅ Fixed |
+| Language toggle     | `py-2` (36px) | `py-3` (44px+) | ✅ Fixed |
 
 ---
 
@@ -152,13 +159,15 @@ After:  #059669 (Emerald 600) → 4.5:1+ contrast ✓
 **File**: `components/timer/TimerControls.tsx`
 
 **Before**:
+
 ```tsx
-className="... bg-text-secondary ..." // Using text color as background
+className = '... bg-text-secondary ...' // Using text color as background
 ```
 
 **After**:
+
 ```tsx
-className="... bg-gray-500 ..." // Proper background color
+className = '... bg-gray-500 ...' // Proper background color
 ```
 
 ---
@@ -166,14 +175,17 @@ className="... bg-gray-500 ..." // Proper background color
 ## Visual Verification
 
 ### Before Fix
+
 - Buttons: Completely invisible/transparent
 - Modal: Transparent background, unreadable text
 - Overall: Unusable interface
 
 ### After Fix
+
 Based on Playwright screenshots:
 
 #### Main Page
+
 - ✅ Visible green "Start" button with proper contrast
 - ✅ Visible gray "Reset" button
 - ✅ Settings gear icon clearly visible
@@ -182,6 +194,7 @@ Based on Playwright screenshots:
 - ✅ "Enable notifications" button with green background
 
 #### Settings Modal
+
 - ✅ White modal with solid background
 - ✅ Proper text contrast (black on white)
 - ✅ Green "Done" button clearly visible
@@ -230,6 +243,7 @@ The accessibility test suite shows some remaining issues that need attention:
    - Impact: Low - component renders correctly
 
 #### 📋 Test Results Summary
+
 ```
 ✅ 4 passed:
 - Keyboard accessibility
@@ -252,20 +266,24 @@ The accessibility test suite shows some remaining issues that need attention:
 ### Alignment with DESIGN.md
 
 ✅ **Color Palette**: All colors now properly defined and applied
+
 - Primary green: Updated for accessibility while maintaining brand
 - Background cream (#FAF9F6): Properly applied
 - Text colors: Correct contrast ratios
 
 ✅ **Typography**: Maintained design system specifications
+
 - Font sizes unchanged
 - Spacing consistent with design
 
 ✅ **Component Styling**: Follows design guidelines
+
 - Rounded corners maintained
 - Shadow effects (shadow-soft) working
 - Hover states properly styled
 
 ✅ **Relaxing Aesthetic**: Preserved throughout
+
 - Calm color transitions
 - Generous padding maintained
 - Smooth animations intact
@@ -277,6 +295,7 @@ The accessibility test suite shows some remaining issues that need attention:
 ### 1. Immediate Actions Required
 
 #### Update Documentation
+
 Add Tailwind v4 migration note to DESIGN.md:
 
 ```markdown
@@ -290,7 +309,7 @@ This project uses Tailwind CSS v4, which requires CSS-based theme configuration.
 Example:
 \`\`\`css
 @theme {
-  --color-custom: #123456;
+--color-custom: #123456;
 }
 \`\`\`
 
@@ -298,12 +317,15 @@ This generates utilities like `bg-custom`, `text-custom`, etc.
 ```
 
 #### Remove or Update tailwind.config.ts
+
 The current file is ignored but may confuse developers. Options:
+
 1. Delete it entirely (Tailwind v4 doesn't need it)
 2. Add a comment explaining it's legacy/ignored
 3. Migrate any remaining config (plugins, content paths) to CSS if needed
 
 #### Fix Accessibility Tests
+
 Update test selectors to match actual component structure:
 
 ```typescript
@@ -311,7 +333,9 @@ Update test selectors to match actual component structure:
 const langToggle = page.getByRole('combobox', { name: /language/i })
 
 // Settings button has different aria-label
-const settingsBtn = page.getByRole('button', { name: /settings|simple, relaxing/i })
+const settingsBtn = page.getByRole('button', {
+  name: /settings|simple, relaxing/i,
+})
 ```
 
 ---
@@ -319,26 +343,31 @@ const settingsBtn = page.getByRole('button', { name: /settings|simple, relaxing/
 ### 2. Future Improvements
 
 #### Color System Naming
+
 Current naming can be confusing:
+
 - `bg-bg-primary` (background of background?)
 - `text-text-primary` (text of text?)
 
 Consider renaming in future:
+
 ```css
 /* Current */
---color-bg-primary: #FAF9F6;
+--color-bg-primary: #faf9f6;
 
 /* Suggested */
---color-surface-primary: #FAF9F6;
---color-surface-secondary: #F3F4F6;
+--color-surface-primary: #faf9f6;
+--color-surface-secondary: #f3f4f6;
 
 /* Or */
---color-background-page: #FAF9F6;
---color-background-card: #F3F4F6;
+--color-background-page: #faf9f6;
+--color-background-card: #f3f4f6;
 ```
 
 #### Component Touch Targets
+
 Some components still need verification:
+
 - Sound preview play button
 - Notification toggle switch
 - Select dropdown items
@@ -346,7 +375,9 @@ Some components still need verification:
 Recommend audit and testing on actual touch devices.
 
 #### Dark Mode Preparation
+
 Current implementation uses fixed colors. Consider:
+
 - CSS custom properties for light/dark themes
 - `prefers-color-scheme` media query
 - Theme toggle component
@@ -356,6 +387,7 @@ Current implementation uses fixed colors. Consider:
 ### 3. Development Workflow Improvements
 
 #### Add Build Validation
+
 Add to CI/CD pipeline:
 
 ```bash
@@ -366,15 +398,19 @@ pnpm build && \
 ```
 
 #### Add Visual Regression Testing
+
 Use Playwright for screenshot comparison:
+
 ```typescript
 await expect(page).toHaveScreenshot('homepage.png', {
-  threshold: 0.2 // Allow 20% diff for anti-aliasing
+  threshold: 0.2, // Allow 20% diff for anti-aliasing
 })
 ```
 
 #### Add Contrast Checking to Storybook/Development
+
 Integrate tools like:
+
 - `axe-core` for automated checks
 - Browser DevTools contrast analyzer
 - Pre-commit hooks for WCAG validation
@@ -384,17 +420,20 @@ Integrate tools like:
 ## Lessons Learned
 
 ### 1. Framework Version Migrations
+
 - **Always verify configuration compatibility** after major version upgrades
 - **Check for breaking changes** in migration guides
 - **Test thoroughly** after upgrading dependencies
 - Document configuration format in project README
 
 ### 2. Design System Implementation
+
 - **Design docs should include technical specs** (not just visual design)
 - **Configuration as code** should be version-controlled and documented
 - **Color definitions** should be centralized and accessible
 
 ### 3. Accessibility Testing
+
 - **Automated tests catch common issues** but manual testing is essential
 - **Color contrast** is a frequent oversight - validate early
 - **Touch targets** often forgotten in desktop-first designs
@@ -407,6 +446,7 @@ Integrate tools like:
 To prevent similar issues in future:
 
 ### ✅ Pre-Deployment Checklist
+
 - [ ] Visual inspection on all pages
 - [ ] Test with browser DevTools color picker (contrast check)
 - [ ] Verify touch targets on mobile viewport
@@ -415,12 +455,14 @@ To prevent similar issues in future:
 - [ ] Verify custom Tailwind classes generate in build
 
 ### ✅ Code Review Checklist
+
 - [ ] Verify color utilities exist in theme configuration
 - [ ] Check WCAG contrast ratios for new colors
 - [ ] Confirm touch targets meet 44x44px minimum
-- [ ] Review semantic class usage (bg-* for backgrounds, text-* for text)
+- [ ] Review semantic class usage (bg-_ for backgrounds, text-_ for text)
 
 ### ✅ Framework Update Checklist
+
 - [ ] Read migration guides thoroughly
 - [ ] Update configuration to new format
 - [ ] Test all custom configurations
@@ -432,6 +474,7 @@ To prevent similar issues in future:
 ## Conclusion
 
 The Share Timer application now has:
+
 - ✅ **Fully visible and functional UI** with proper color system
 - ✅ **WCAG 2.1 AA compliant colors** (4.5:1 contrast ratio)
 - ✅ **Accessible touch targets** (44x44px minimum)
@@ -439,12 +482,14 @@ The Share Timer application now has:
 - ✅ **Modern Tailwind v4 architecture** with CSS-based theme
 
 ### Impact Summary
+
 - **User Experience**: Transformed from unusable to fully functional
 - **Accessibility**: Significantly improved compliance and usability
 - **Maintainability**: Proper v4 configuration enables future updates
 - **Design Consistency**: All components follow design system
 
 ### Next Steps
+
 1. ✅ Merge fixes to main branch
 2. ⚠️ Update accessibility test selectors
 3. ⚠️ Clean up or document tailwind.config.ts status
@@ -456,9 +501,11 @@ The Share Timer application now has:
 ## Files Modified
 
 ### Core Configuration
+
 - `/Users/ryotamurakami/laststance/share-timer/app/globals.css`
 
 ### Component Updates
+
 - `/Users/ryotamurakami/laststance/share-timer/components/timer/TimerControls.tsx`
 - `/Users/ryotamurakami/laststance/share-timer/components/settings/SettingsPanel.tsx`
 - `/Users/ryotamurakami/laststance/share-timer/components/settings/SoundSelector.tsx`
@@ -466,6 +513,7 @@ The Share Timer application now has:
 - `/Users/ryotamurakami/laststance/share-timer/app/[locale]/page.tsx`
 
 ### Total Changes
+
 - 6 files modified
 - ~20 lines of CSS added (theme configuration)
 - ~10 button padding values updated

@@ -28,6 +28,7 @@ The following icon files need to be added to the `/public` directory for the PWA
 ## Temporary Workaround
 
 The app will work without these icons, but:
+
 - Notifications will use browser default icons
 - PWA installation may not work on some devices
 - Icon references in manifest.ts should be updated once icons are added
@@ -35,11 +36,13 @@ The app will work without these icons, but:
 ## Creating Icons
 
 You can use tools like:
+
 - [PWA Asset Generator](https://github.com/elegantapp/pwa-asset-generator)
 - [RealFaviconGenerator](https://realfavicongenerator.net/)
 - Design tools: Figma, Sketch, Adobe Illustrator
 
 Example command using pwa-asset-generator:
+
 ```bash
 npx pwa-asset-generator logo.svg public --manifest app/manifest.ts
 ```
